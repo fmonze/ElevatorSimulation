@@ -17,3 +17,21 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+.Floor-Button {
+  padding: 1vmin;
+}
+
+.Up-Button {
+  padding-left: 1vmin;
+  padding-right: 1vmin;
+  max-width: 70%;
+  max-height: 70%;
+}
+
+.Down-Button {
+  padding-left: 1vmin;
+  padding-right: 1vmin;
+  max-width: 70%;
+  max-height: 70%;
+}
