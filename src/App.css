@@ -2,11 +2,6 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 10vmin;
-  pointer-events: none;
-}
-
 .App-header {
   background-color: #282c34;
   min-height: 10vh;
@@ -18,25 +13,65 @@
   color: white;
 }
 
-.Floor-Button {
-  padding: 1vmin;
+.App-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  text-align: center;
 }
 
-.Up-Button {
-  padding: 10px;
-  max-width: 50%;
-  max-height: 50%;
+.Elevator-img {
+  padding: 2%;
+  position: relative;
+  max-width: 15%;
+  max-height: 15%;
+  pointer-events: none;
+}
+
+.Floor-Button {
+  padding: 2%;
+  padding-left: 3.5%;
+  padding-right: 3.5%;
+  position: relative;
 }
 
 .Down-Button {
-  padding: 10px;
+  padding: 4%;
   max-width: 50%;
   max-height: 50%;
+  position: relative;
+
 }
 
-.Highlighted-Button {
-  padding: 10px;
+.Up-Button {
+  padding: 4%;
   max-width: 50%;
   max-height: 50%;
-  opacity: 0.5;
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
+.Highlighted-Up-Button {
+  padding: 4%;
+  max-width: 50%;
+  max-height: 50%;
+  opacity: 0;
+  position: relative;
+  margin-left: -50%;
+  top: 0;
+  left: 0;
+}
+
+.Highlighted-Down-Button {
+  padding: 4%;
+  max-width: 50%;
+  max-height: 50%;
+  opacity: 0;
+  position: relative;
+  margin-left: -50%;
+  top: 0;
+  left: 0;
 }

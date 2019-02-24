@@ -4,7 +4,7 @@ import InternPanel from './InternPanel';
 class Intern extends Component {
     render() {
         return (
-            <header>
+            <header className="App-body">
                 Here goes the internal overview
                 <InternPanel/>
             </header>

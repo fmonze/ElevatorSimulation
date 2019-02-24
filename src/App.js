@@ -7,13 +7,21 @@ import Intern from './Intern';
 
 
 class App extends Component {
-  render() {
+
+    constructor(props) {
+        super(props);
+        // Set initial state
+        // todo: this.state = { elevatorPosition: 3; elevatorDirection: UP/1; elevator}
+
+    }
+
+    render() {
     return (
       <div className="App">
         <header className="App-header">
           Elevator Simulation
         </header>
-        <body>
+        <body className="App-body">
           <div className="container-fluid">
             <div className="row row-eq-height">
               <div className="col-sm-7">

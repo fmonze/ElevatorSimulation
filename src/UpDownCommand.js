@@ -5,38 +5,31 @@ import currentFloor from './current_floor_button.svg';
 const divStyle = {
     margin: '5px',
     border: '5px solid blue',
-    maxWidth: '14%'
+    maxWidth: "15%"
 };
 
-const highlightedStyle = {
-    padding: '10px',
-    maxWidth: '50%',
-    maxHeight: '50%',
-    opacity: '0',
+const myRow = {
     position: 'relative',
-    top: '0',
-    left: '-61.5px',
 };
 
-const up = {
-    padding: '10px',
-    maxWidth: '50%',
-    maxHeight: '50%',
-    position: 'relative',
-    top: '0',
-    left: '0',
-};
+// todo: meglio togliere le classi dal css e mettere gli stili dei tre bottoni (down uo e highlighted) qui?
 
 class UpDownCommand extends Component {
 
-    constructor() {
-        super();
-        this.toggle = false;
+    constructor(props) {
+        super(props);
+        this.toggleUp = false;
+        this.toggleDown = false;
     }
 
-    handleClick() {
-        this.refs.highlighted.style.opacity = (this.toggle ? 1 : 0)/2; // todo: c'è un modo più elegnate con set() ?
-        this.toggle = !this.toggle; // in realtà si spegne solo quando è stata servita la chiamata, perché una volta acceso, resta acceso
+    handleClick(direction) {
+        if(direction === "up") {
+            this.toggleUp = !this.toggleUp; // in realtà si spegne solo quando è stata servita la chiamata, perché una volta acceso, resta acceso
+            this.refs.highlightedUp.style.opacity = (this.toggleUp ? 1 : 0)/2; // todo: c'è un modo più elegnate con set() ?
+        } else {
+            this.toggleDown = !this.toggleDown; // in realtà si spegne solo quando è stata servita la chiamata, perché una volta acceso, resta acceso
+            this.refs.highlightedDown.style.opacity = (this.toggleDown ? 1 : 0)/2; // todo: c'è un modo più elegnate con set() ?
+        }
 
         // todo: qui dovrei updatare lo stato credo
     }
@@ -44,17 +37,16 @@ class UpDownCommand extends Component {
     render() {
         return (
             <header style={divStyle}>
-                <div className="container-fluid">
-                    <div className="row">
-                        <img src={floor} className="Up-Button" style={up}/>
-                        <img ref="highlighted" src={currentFloor} className="Highlighted-Button"
-                             onClick={this.handleClick.bind(this)} style={highlightedStyle}/>
-
+                    <div style={myRow}>
+                        <img src={floor} className="Up-Button"/>
+                        <img ref="highlightedUp" src={currentFloor} className="Highlighted-Up-Button"
+                             onClick={this.handleClick.bind(this, "up")} />
                     </div>
-                    <div className="row">
-                        <img src={floor} className="Down-Button" />
+                    <div style={myRow}>
+                        <img src={floor} className="Down-Button"/>
+                        <img ref="highlightedDown" src={currentFloor} className="Highlighted-Down-Button"
+                             onClick={this.handleClick.bind(this, "down")} />
                     </div>
-                </div>
             </header>
         );
     }
