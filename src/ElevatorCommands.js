@@ -10,18 +10,23 @@ const myRow = {
 };
 
 class ElevatorCommands extends Component {
+
+    constructor(props) {
+        super(props);
+    }
+
     render() {
         // todo se definisco come class App-header prende quelle caratteristiche
         return (
             <header>
                 <div className="container-fluid">
                     <div className="row" style={myRow}>
-                        <UpDownCommand/>
-                        <UpDownCommand/>
-                        <UpDownCommand/>
-                        <UpDownCommand/>
-                        <UpDownCommand/>
-                        <UpDownCommand/>
+                        <UpDownCommand id='0' upDownData={this.props.commandsData} />
+                        <UpDownCommand id='1' upDownData={this.props.commandsData} />
+                        <UpDownCommand id='2' upDownData={this.props.commandsData} />
+                        <UpDownCommand id='3' upDownData={this.props.commandsData} />
+                        <UpDownCommand id='4' upDownData={this.props.commandsData} />
+                        <UpDownCommand id='5' upDownData={this.props.commandsData} />
                     </div>
                 </div>
             </header>
