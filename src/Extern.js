@@ -4,13 +4,17 @@ import ElevatorAnimation from './ElevatorAnimation';
 import ElevatorCommands from './ElevatorCommands';
 
 class Extern extends Component {
+
+    constructor(props) {
+        super(props);
+    }
+
     render() {
         return (
-            <header className="App-body"r>
-                Here goes the external overview
-                <ElevatorLocation/>
-                <ElevatorAnimation/>
-                <ElevatorCommands/>
+            <header className="App-body">
+                <ElevatorLocation locationData={this.props.externData}/>
+                <ElevatorAnimation animationData={this.props.externData}/>
+                <ElevatorCommands commandsData={this.props.externData}/>
             </header>
         );
     }

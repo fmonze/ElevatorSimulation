@@ -11,8 +11,21 @@ class ElevatorLocation extends Component {
 
     constructor(props) {
         super(props);
+        // todo: remove since only for debug purposes
         this.toggle = false;
     }
+
+    // todo: set current location quando cambia ad es on change
+    setCurrentLocation(floor) {
+        // Switch off previous floor
+        //... .style.opacity = 0;
+
+        // Switch on current floor
+        this.refs['highlighted' + floor].style.opacity = 0.5;
+        //todo update lo stato dell'app:
+        // this.setState({elevatorPosition: floor});
+    }
+
     handleClick = (e) => {
         this.toggle = !this.toggle; // in realtà si spegne solo quando è stata servita la chiamata, perché una volta acceso, resta acceso
         e.target.style.opacity = (this.toggle ? 1 : 0)/2; // todo: c'è un modo più elegnate con set() ?
@@ -21,20 +34,24 @@ class ElevatorLocation extends Component {
     render() {
         return (
             <header style={divStyle}>
-                <img id="10" src={floor} className="Floor-Button" />
-                <img id="11" ref="highlighted1" src={currentFloor} className="Highlighted-Floor-Button" onClick={this.handleClick.bind(this)}/>
-                <img id="20" src={floor} className="Floor-Button" />
-                <img id="22" ref="highlighted2" src={currentFloor} className="Highlighted-Floor-Button" onClick={this.handleClick.bind(this)}/>
-                <img id="30" src={floor} className="Floor-Button" />
-                <img id="31" ref="highlighted3" src={currentFloor} className="Highlighted-Floor-Button" onClick={this.handleClick.bind(this)}/>
-                <img id="40" src={floor} className="Floor-Button" />
-                <img id="41" ref="highlighted4" src={currentFloor} className="Highlighted-Floor-Button" onClick={this.handleClick.bind(this)}/>
-                <img id="50" src={floor} className="Floor-Button" />
-                <img id="51" ref="highlighted5" src={currentFloor} className="Highlighted-Floor-Button" onClick={this.handleClick.bind(this)}/>
-                <img id="60" src={floor} className="Floor-Button" />
-                <img id="61" ref="highlighted6" src={currentFloor} className="Highlighted-Floor-Button" onClick={this.handleClick.bind(this)}/>
+                <img src={floor} className="Floor-Button" />
+                <img id="0" ref="highlighted0" src={currentFloor} className="Highlighted-Floor-Button" onClick={this.handleClick.bind(this)}/>
+                <img src={floor} className="Floor-Button" />
+                <img id="1" ref="highlighted1" src={currentFloor} className="Highlighted-Floor-Button" onClick={this.handleClick.bind(this)}/>
+                <img src={floor} className="Floor-Button" />
+                <img id="2" ref="highlighted2" src={currentFloor} className="Highlighted-Floor-Button" onClick={this.handleClick.bind(this)}/>
+                <img src={floor} className="Floor-Button" />
+                <img id="3" ref="highlighted3" src={currentFloor} className="Highlighted-Floor-Button" onClick={this.handleClick.bind(this)}/>
+                <img src={floor} className="Floor-Button" />
+                <img id="4" ref="highlighted4" src={currentFloor} className="Highlighted-Floor-Button" onClick={this.handleClick.bind(this)}/>
+                <img src={floor} className="Floor-Button" />
+                <img id="5" ref="highlighted5" src={currentFloor} className="Highlighted-Floor-Button" onClick={this.handleClick.bind(this)}/>
             </header>
         );
+    }
+
+    componentDidMount() {
+        this.setCurrentLocation(this.props.locationData.elevatorPosition)
     }
 }
 

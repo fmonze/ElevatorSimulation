@@ -11,8 +11,12 @@ class App extends Component {
     constructor(props) {
         super(props);
         // Set initial state
-        // todo: this.state = { elevatorPosition: 3; elevatorDirection: UP/1; elevator}
-
+        this.state = {
+            elevatorPosition: 3,
+            elevatorDirection: 1, // default direction is UP (1)
+            pendingCalls: [],
+            callsToCollect: [],
+        };
     }
 
     render() {
@@ -25,7 +29,7 @@ class App extends Component {
           <div className="container-fluid">
             <div className="row row-eq-height">
               <div className="col-sm-7">
-                <Extern/>
+                <Extern externData={this.state}/>
               </div>
               <div className="col-sm-5">
                 <Intern/>
@@ -33,6 +37,9 @@ class App extends Component {
             </div>
           </div>
         </body>
+        <footer className="App-footer">
+          Credits
+        </footer>
       </div>
     );
   }

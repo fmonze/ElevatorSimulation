@@ -13,8 +13,8 @@ class ElevatorAnimation extends Component {
             <header style={divStyle}>
                 <img id="0" src={closedLift} className="Elevator-img" />
                 <img id="1" src={closedLift} className="Elevator-img" />
-                <img id="2" src={openLift} className="Elevator-img" />
-                <img id="3" src={closedLift} className="Elevator-img" />
+                <img id="2" src={closedLift} className="Elevator-img" />
+                <img id="3" src={openLift} className="Elevator-img" />
                 <img id="4" src={closedLift} className="Elevator-img" />
                 <img id="5" src={closedLift} className="Elevator-img" />
 

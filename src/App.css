@@ -3,24 +3,36 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-image: linear-gradient(#282c34 80%, #393F4A);
   min-height: 10vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: #636D80;
 }
 
 .App-body {
+  background-color: #393F4A;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   text-align: center;
-  min-height: 80vh;
+  min-height: 85vh;
+}
+.App-footer {
+  background-image: linear-gradient(#393F4A, #282c34);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  font-size: calc(3px + 1vmin);
+  text-align: left;
+  min-height: 5vh;
+  padding-left: 2vw;
+  color: #636D80;
 }
 
 .Elevator-img {
@@ -99,10 +111,7 @@
   justify-content: center;
   max-width: 80%;
   max-height: 80%;
-  padding-top: 5%;
-  padding-bottom: 5%;
-  padding-left: 10%;
-  padding-right: 10%;
+  padding: 5% 10%;
 
 }
 
