@@ -6,7 +6,7 @@ import ElevatorCommands from './ElevatorCommands';
 class Extern extends Component {
     render() {
         return (
-            <header className="App-Body"r>
+            <header className="App-body"r>
                 Here goes the external overview
                 <ElevatorLocation/>
                 <ElevatorAnimation/>
