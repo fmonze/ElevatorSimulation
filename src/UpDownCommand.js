@@ -60,11 +60,6 @@ class UpDownCommand extends Component {
             </header>
         );
     }
-
-    componentDidMount() {
-        //console.log('merda');
-        //console.log(this.props.id);
-    }
 }
 
 export default UpDownCommand;

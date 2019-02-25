@@ -5,6 +5,7 @@ import './App.css';
 import Extern from './Extern';
 import Intern from './Intern';
 
+// todo: need a method to update all buttons, i.e. when a call is not more pending then switch off the buttons
 
 class App extends Component {
 
@@ -14,7 +15,7 @@ class App extends Component {
         this.state = {
             elevatorPosition: 3,
             elevatorDirection: 1, // default direction is UP (1)
-            pendingCallsUp: [],
+            pendingCallsUp: [ 4, 5],
             pendingCallsDown: [],
             callsToCollectUp: [],
             callsToCollectDown: [],
