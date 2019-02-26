@@ -22,17 +22,29 @@ class ElevatorCommands extends Component {
                 <div className="container-fluid">
                     <div className="row" style={myRow}>
                         <UpDownCommand id='0' upDownData={this.props.commandsData}
-                                       update={(direction, newFloor) => {this.props.updateElevatorLoc(direction, newFloor)}}/>
+                                       isFloorServed={(id) => {
+                                           if (!this.props.commandsData.pendingCallsUp.includes(id)) { return 1 }}}
+                                       update={(direction, newFloor) => {this.props.updateFromCommands(direction, newFloor)}}/>
                         <UpDownCommand id='1' upDownData={this.props.commandsData}
-                                       update={(direction, newFloor) => {this.props.updateElevatorLoc(direction, newFloor)}}/>
+                                       isFloorServed={(id) => {
+                                           if (!this.props.commandsData.pendingCallsUp.includes(id)) { return 1 }}}
+                                       update={(direction, newFloor) => {this.props.updateFromCommands(direction, newFloor)}}/>
                         <UpDownCommand id='2' upDownData={this.props.commandsData}
-                                       update={(direction, newFloor) => {this.props.updateElevatorLoc(direction, newFloor)}}/>
+                                       isFloorServed={(id) => {
+                                           if (!this.props.commandsData.pendingCallsUp.includes(id)) { return 1 }}}
+                                       update={(direction, newFloor) => {this.props.updateFromCommands(direction, newFloor)}}/>
                         <UpDownCommand id='3' upDownData={this.props.commandsData}
-                                       update={(direction, newFloor) => {this.props.updateElevatorLoc(direction, newFloor)}}/>
+                                       isFloorServed={(id) => {
+                                           if (!this.props.commandsData.pendingCallsUp.includes(id)) { return 1 }}}
+                                       update={(direction, newFloor) => {this.props.updateFromCommands(direction, newFloor)}}/>
                         <UpDownCommand id='4' upDownData={this.props.commandsData}
-                                       update={(direction, newFloor) => {this.props.updateElevatorLoc(direction, newFloor)}}/>
+                                       isFloorServed={(id) => {
+                                           if (!this.props.commandsData.pendingCallsUp.includes(id)) { return 1 }}}
+                                       update={(direction, newFloor) => {this.props.updateFromCommands(direction, newFloor)}}/>
                         <UpDownCommand id='5' upDownData={this.props.commandsData}
-                                       update={(direction, newFloor) => {this.props.updateElevatorLoc(direction, newFloor)}}/>
+                                       isFloorServed={(id) => {
+                                           return !this.props.commandsData.pendingCallsUp.includes(id) }}
+                                       update={(direction, newFloor) => {this.props.updateFromCommands(direction, newFloor)}}/>
                     </div>
                 </div>
             </header>

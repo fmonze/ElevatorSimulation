@@ -15,7 +15,7 @@ class App extends Component {
         this.state = {
             elevatorPosition: 3,
             elevatorDirection: 1, // default direction is UP (1)
-            pendingCallsUp: [ 4, 5],
+            pendingCallsUp: [],
             pendingCallsDown: [],
             callsToCollectUp: [],
             callsToCollectDown: [],

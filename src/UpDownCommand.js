@@ -21,7 +21,6 @@ class UpDownCommand extends Component {
     }
 
     handleClick = e => {
-        console.log("id " + this.props.id);
         if(e.target.attributes.options.value === "up") {
             // Switch on button
             this.refs.up.style.opacity = 0.5; // todo: c'è un modo più elegante con set() ?
@@ -32,6 +31,13 @@ class UpDownCommand extends Component {
         }
 
         this.props.update(e.target.attributes.options.value, this.props.id);
+    }
+
+    switchOff() {
+        // Switch off both button
+        console.log('switch off');
+        this.refs.up.style.opacity = 0;
+        this.refs.down.style.opacity = 0;
     }
 
 
@@ -50,6 +56,13 @@ class UpDownCommand extends Component {
                     </div>
             </header>
         );
+    }
+
+    componentDidUpdate() {
+        if (this.props.isFloorServed(this.props.id)) {
+            // todo uncomment to activate switch off of button once served
+            // this.switchOff();
+        }
     }
 }
 
