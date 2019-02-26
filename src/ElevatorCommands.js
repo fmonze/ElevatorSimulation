@@ -21,12 +21,18 @@ class ElevatorCommands extends Component {
             <header>
                 <div className="container-fluid">
                     <div className="row" style={myRow}>
-                        <UpDownCommand id='0' upDownData={this.props.commandsData} />
-                        <UpDownCommand id='1' upDownData={this.props.commandsData} />
-                        <UpDownCommand id='2' upDownData={this.props.commandsData} />
-                        <UpDownCommand id='3' upDownData={this.props.commandsData} />
-                        <UpDownCommand id='4' upDownData={this.props.commandsData} />
-                        <UpDownCommand id='5' upDownData={this.props.commandsData} />
+                        <UpDownCommand id='0' upDownData={this.props.commandsData}
+                                       update={(direction, newFloor) => {this.props.updateElevatorLoc(direction, newFloor)}}/>
+                        <UpDownCommand id='1' upDownData={this.props.commandsData}
+                                       update={(direction, newFloor) => {this.props.updateElevatorLoc(direction, newFloor)}}/>
+                        <UpDownCommand id='2' upDownData={this.props.commandsData}
+                                       update={(direction, newFloor) => {this.props.updateElevatorLoc(direction, newFloor)}}/>
+                        <UpDownCommand id='3' upDownData={this.props.commandsData}
+                                       update={(direction, newFloor) => {this.props.updateElevatorLoc(direction, newFloor)}}/>
+                        <UpDownCommand id='4' upDownData={this.props.commandsData}
+                                       update={(direction, newFloor) => {this.props.updateElevatorLoc(direction, newFloor)}}/>
+                        <UpDownCommand id='5' upDownData={this.props.commandsData}
+                                       update={(direction, newFloor) => {this.props.updateElevatorLoc(direction, newFloor)}}/>
                     </div>
                 </div>
             </header>

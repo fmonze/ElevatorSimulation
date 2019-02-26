@@ -21,26 +21,17 @@ class UpDownCommand extends Component {
     }
 
     handleClick = e => {
-        console.log();
+        console.log("id " + this.props.id);
         if(e.target.attributes.options.value === "up") {
             // Switch on button
             this.refs.up.style.opacity = 0.5; // todo: c'è un modo più elegante con set() ?
-            // Add floor to calls to collect and to pending calls if it has not already been collected
-            if (this.props.upDownData.callsToCollectUp.indexOf(this.props.id) < 0) {
-                this.props.upDownData.callsToCollectUp.push(this.props.id);
-                this.props.upDownData.pendingCallsUp.push(this.props.id);
-                console.log(this.props.upDownData.pendingCallsUp);
-            }
+
         } else {
             // Switch on button
             this.refs.down.style.opacity = 0.5; // todo: c'è un modo più elegante con set() ?
-            // Add floor to calls to collect and to pending calls if it has not already been collected
-            if (this.props.upDownData.callsToCollectDown.indexOf(this.props.id) < 0) {
-                this.props.upDownData.callsToCollectDown.push(this.props.id);
-                this.props.upDownData.pendingCallsDown.push(this.props.id);
-                console.log(this.props.upDownData.pendingCallsDown);
-            }
         }
+
+        this.props.update(e.target.attributes.options.value, this.props.id);
     }
 
 
@@ -50,12 +41,12 @@ class UpDownCommand extends Component {
                     <div style={myRow}>
                         <img src={floor} className="Up-Button"/>
                         <img ref="up" src={currentFloor} className="Highlighted-Up-Button" options="up"
-                             onClick={this.handleClick.bind(this)} />
+                             onClick={(e) => {this.handleClick(e)}} />
                     </div>
                     <div style={myRow}>
                         <img src={floor} className="Down-Button"/>
                         <img ref="down" src={currentFloor} className="Highlighted-Down-Button" options="down"
-                             onClick={this.handleClick.bind(this)} />
+                             onClick={(e) => {this.handleClick(e)}} />
                     </div>
             </header>
         );
