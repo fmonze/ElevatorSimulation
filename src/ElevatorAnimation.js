@@ -13,7 +13,14 @@ class ElevatorAnimation extends Component {
         super(props);
     }
 
-    moveUp() {
+    closeElevatorDoor(floor) {
+
+        setTimeout(() => {
+            this.refs['fl' + floor].src = closedLift;
+        }, 1000);
+    }
+
+    async moveUp() {
         // todo: insert consideration of calls to collect while serving the calls
         /*
         // Continue moving until there aren't any pending calls left
@@ -41,21 +48,42 @@ class ElevatorAnimation extends Component {
          }
            */
         //Close
-        if (this.props.animationData.pendingCallsUp.length > 0) {
-            let currentFloor = this.props.animationData.elevatorPosition;
-            this.refs['fl' + currentFloor].src = closedLift;
+        if (this.props.animationData.callsToCollectUp.length > 0) {
+            await this.closeElevatorDoor(this.props.animationData.elevatorPosition);
 
-            // Open
+            // Go to the floor calling the elevator if no pending call between current and target location
             console.log("up bef ");
-            console.log(this.props.animationData.pendingCallsUp);
-            let newFloor = this.props.animationData.pendingCallsUp.pop();
+            console.log(this.props.animationData.callsToCollectUp);
+
+            let newFloor = this.props.animationData.callsToCollectUp.pop(); // Remove element from callsToCollect
+
             console.log("up aft");
-            console.log(this.props.animationData.pendingCallsUp);
-            this.refs['fl' + newFloor].src = openLift;
+            console.log(this.props.animationData.callsToCollectUp);
+
+
+            while (this.props.animationData.pendingCallsUp.some(x => x < newFloor)) {
+                console.log("pending");
+                console.log(this.props.animationData.pendingCallsUp);
+                let pendingFloor = Math.min(...this.props.animationData.pendingCallsUp.filter( x => x < newFloor))
+                this.props.animationData.pendingCallsUp.splice(this.props.animationData.pendingCallsUp.indexOf(pendingFloor), 1);
+                setTimeout(() => {
+                    this.refs['fl' + pendingFloor].src = openLift;
+                    this.props.updateFromAnimationUp(this.props.animationData.elevatorPosition, this.props.animationData.callsToCollectUp, this.props.animationData.pendingCallsUp)
+                    this.closeElevatorDoor(pendingFloor);
+                }, 1500);
+
+            }
+            setTimeout(() => {
+                this.refs['fl' + newFloor].src = openLift;
+            }, 2000);
+
             this.props.animationData.elevatorPosition = newFloor;
             //this.props.animationData.pendingCallsUp.splice(this.props.animationData.pendingCallsUp.indexOf(newFloor), 1);
 
-            this.props.updateFromAnimation(this.props.animationData.elevatorPosition, this.props.animationData.pendingCallsUp)
+            setTimeout(() => {
+                this.props.updateFromAnimationUp(this.props.animationData.elevatorPosition, this.props.animationData.callsToCollectUp, this.props.animationData.pendingCallsUp)
+            }, 3000);
+
 
         }
     }
@@ -63,22 +91,22 @@ class ElevatorAnimation extends Component {
     moveDown() {
         // todo complete
         //Close
-        if (this.props.animationData.pendingCallsDown.length > 0) {
+        if (this.props.animationData.callsToCollectDown.length > 0) {
             let currentFloor = this.props.animationData.elevatorPosition;
             this.refs['fl' + currentFloor].src = closedLift;
 
             // Open
             console.log( "down bef");
-            console.log(this.props.animationData.pendingCallsDown);
-            let newFloor = this.props.animationData.pendingCallsDown.pop();
+            console.log(this.props.animationData.callsToCollectDown);
+            let newFloor = this.props.animationData.callsToCollectDown.pop();
             console.log( "down aft");
-            console.log(this.props.animationData.pendingCallsDown);
+            console.log(this.props.animationData.callsToCollectDown);
             this.refs['fl' + newFloor].src = openLift;
             this.props.animationData.elevatorPosition = newFloor;
             //this.props.animationData.pendingCallsDown.splice(this.props.animationData.pendingCallsDown.indexOf(newFloor), 1);
 
             // Update calls for the other components
-            this.props.updateFromAnimation(this.props.animationData.elevatorPosition, this.props.animationData.pendingCallsDown)
+            this.props.updateFromAnimationDown(this.props.animationData.elevatorPosition, this.props.animationData.callsToCollectDown)
         }
     }
 
@@ -96,7 +124,7 @@ class ElevatorAnimation extends Component {
         );
     }
 
-    componentWillUpdate(nextProps, nextState, nextContext) {
+    componentWillUpdate() {
         if (this.props.animationData.elevatorDirection == "up") { this.moveUp(); }
         else { this.moveDown(); }
     }

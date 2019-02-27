@@ -15,7 +15,7 @@ class App extends Component {
         this.state = {
             elevatorPosition: 3,
             elevatorDirection: 1, // default direction is UP (1)
-            pendingCallsUp: [],
+            pendingCallsUp: [4, 5],
             pendingCallsDown: [],
             callsToCollectUp: [],
             callsToCollectDown: [],
@@ -28,7 +28,7 @@ class App extends Component {
         <header className="App-header">
           Elevator Simulation
         </header>
-        <body className="App-body">
+        <div className="App-body">
           <div className="container-fluid">
             <div className="row row-eq-height">
               <div className="col-sm-7">
@@ -39,7 +39,7 @@ class App extends Component {
               </div>
             </div>
           </div>
-        </body>
+        </div>
         <footer className="App-footer">
           Credits
         </footer>
