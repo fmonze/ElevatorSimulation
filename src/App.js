@@ -13,11 +13,10 @@ class App extends Component {
         super(props);
         // Set initial state
         this.state = {
-            elevatorPosition: 3,
-            elevatorDirection: 1, // default direction is UP (1)
-            pendingCallsUp: [4, 5],
-            pendingCallsDown: [],
-            callsToCollectUp: [],
+            elevatorPosition: 0,
+            elevatorDirection: "up", // default direction is UP (1)
+            pendingCalls: [4, 5],
+            callsToCollectUp: [3, 5],
             callsToCollectDown: [],
         };
     }

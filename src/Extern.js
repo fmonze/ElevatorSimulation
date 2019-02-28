@@ -9,6 +9,7 @@ class Extern extends Component {
         super(props);
         this.state = {commandPushed: 0,
                       elevatorMoved: 0,
+                      directionChanged: 0
                      };
     }
 
@@ -38,13 +39,41 @@ class Extern extends Component {
         }
     }
 
+    setMainDirection() {
+
+        // Also change when no more callsToCollect or pendingCalls above/below current position
+        if (this.props.externData.elevatorDirection == "up"
+            && !this.props.externData.pendingCalls.some(x => x > this.props.externData.elevatorPosition)
+            && !this.props.externData.callsToCollectUp.some(x => x > this.props.externData.elevatorPosition)
+            && !this.props.externData.callsToCollectDown.some(x => x > this.props.externData.elevatorPosition)) {
+
+            this.props.externData.elevatorDirection = "down";
+            this.setState({directionChanged: !this.state.directionChanged});
+        }
+
+        if (this.props.externData.elevatorDirection == "down"
+            && !this.props.externData.pendingCalls.some(x => x < this.props.externData.elevatorPosition)
+            && !this.props.externData.callsToCollectUp.some(x => x < this.props.externData.elevatorPosition)
+            && !this.props.externData.callsToCollectDown.some(x => x < this.props.externData.elevatorPosition)) {
+
+            this.props.externData.elevatorDirection = "up";
+            this.setState({directionChanged: !this.state.directionChanged});
+        }
+
+        // Change when extremes are reached
+        if(this.props.externData.elevatorPosition == 5) { this.props.externData.elevatorDirection = "down";
+                                                          this.setState({directionChanged: !this.state.directionChanged}); }
+        if(this.props.externData.elevatorPosition == 0) { this.props.externData.elevatorDirection = "up";
+                                                          this.setState({directionChanged: !this.state.directionChanged}); }
+    }
+
     render() {
         // todo in arrow func sotto
         return (
             <header className="App-body">
                 <ElevatorLocation locationData={this.props.externData} />
                 <ElevatorAnimation animationData={this.props.externData}
-                                   updateFromAnimationUp={(currentLocation, callsCollUp, pendingUp) =>
+                                   updateFromAnimationUp={(currentLocation, callsCollUp, pending) =>
                                     {
                                         //console.log("merda");
                                         //console.log(callsCollUp);
@@ -52,11 +81,14 @@ class Extern extends Component {
 
                                         this.props.externData.elevatorPosition = currentLocation;
                                         this.props.externData.callsToCollectUp = callsCollUp;
-                                        this.props.externData.pendingCallsUp = pendingUp;
+                                        this.props.externData.pendingCalls = pending;
+                                        console.log("direction before " + this.props.externData.elevatorDirection);
+                                        this.setMainDirection();
+                                        console.log("direction after " + this.props.externData.elevatorDirection);
                                         this.setState({elevatorMoved: !this.state.elevatorMoved});
                                     }
                                    }
-                                   updateFromAnimationDown={(currentLocation, callsCollDown, pendingDown) =>
+                                   updateFromAnimationDown={(currentLocation, callsCollDown, pending) =>
                                    {
                                        //console.log("merda");
                                        //console.log(callsCollDown);
@@ -64,24 +96,31 @@ class Extern extends Component {
 
                                        this.props.externData.elevatorPosition = currentLocation;
                                        this.props.externData.callsToCollectDown = callsCollDown;
-                                       this.props.externData.pendingCallsDown = pendingDown;
+                                       this.props.externData.pendingCalls = pending;
+                                       console.log("direction before " + this.props.externData.elevatorDirection);
+                                       this.setMainDirection();
+                                       console.log("direction after " + this.props.externData.elevatorDirection);
                                        this.setState({elevatorMoved: !this.state.elevatorMoved});
                                    }
                                    }/>
                 <ElevatorCommands commandsData={this.props.externData}
                                   updateFromCommands={(direction, newFloor) =>
                                     {
-                                        console.log(this.props.externData.callsToCollectDown);
                                         // Update calls
                                         //console.log("receive floor from upDown component " + newFloor);
                                         //console.log("and also " + direction);
                                         if (direction == "up") { this.updateCallsUp(newFloor) }
                                         else { this.updateCallsDown(newFloor) }
 
+                                        console.log(this.props.externData.callsToCollectUp);
+                                        console.log(this.props.externData.callsToCollectDown);
+
+                                        /*
                                         // todo: temporary set main direction here
                                         // Set main direction
                                         this.props.externData.elevatorDirection = direction;
                                         //console.log("which is updated globally " + this.props.externData.elevatorDirection);
+                                        */
                                     }
                                   }/>
             </header>
