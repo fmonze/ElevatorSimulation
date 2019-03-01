@@ -17,7 +17,7 @@ class App extends Component {
             elevatorDirection: "up", // default direction is UP (1)
             pendingCalls: [1],
             callsToCollectUp: [3],
-            callsToCollectDown: [2,4],
+            callsToCollectDown: [4, 2],
         };
     }
 

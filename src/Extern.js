@@ -7,6 +7,8 @@ class Extern extends Component {
 
     constructor(props) {
         super(props);
+        this.isOldTargetStillInProgress = false;
+        this.end = false;
         this.state = {commandPushed: 0,
                       elevatorMoved: 0,
                       directionChanged: 0,
@@ -65,17 +67,6 @@ class Extern extends Component {
 
     setMainDirection() {
 
-        // Set default direction if all lists are empty
-        if (this.props.externData.pendingCalls.length === 0
-            && this.props.externData.callsToCollectUp.length === 0
-            && this.props.externData.callsToCollectDown.length === 0) {
-
-            this.props.externData.elevatorDirection = "up";
-            this.setState({directionChanged: !this.state.directionChanged});
-            console.log("1");
-            return;
-        }
-
         // Invert direction when no more callsToCollect or pendingCalls above/below current position
         if (this.props.externData.elevatorDirection === "up"
             && (!this.props.externData.pendingCalls.some(x => x > this.props.externData.elevatorPosition)
@@ -83,7 +74,7 @@ class Extern extends Component {
             && !this.props.externData.callsToCollectDown.some(x => x > this.props.externData.elevatorPosition))) {
 
             this.props.externData.elevatorDirection = "down";
-            this.setState({directionChanged: !this.state.directionChanged});
+            //this.setState({directionChanged: !this.state.directionChanged});
             console.log("2");
             return;
         }
@@ -94,19 +85,20 @@ class Extern extends Component {
             && !this.props.externData.callsToCollectDown.some(x => x < this.props.externData.elevatorPosition))) {
 
             this.props.externData.elevatorDirection = "up";
-            this.setState({directionChanged: !this.state.directionChanged});
+            //this.setState({directionChanged: !this.state.directionChanged});
             console.log("3");
             return;
         }
 
         // Change when extremes are reached
         if(this.props.externData.elevatorPosition === 5) { this.props.externData.elevatorDirection = "down";
-                                                          this.setState({directionChanged: !this.state.directionChanged}); }
+                                                          /*this.setState({directionChanged: !this.state.directionChanged});*/ }
         if(this.props.externData.elevatorPosition === 0) { this.props.externData.elevatorDirection = "up";
-                                                          this.setState({directionChanged: !this.state.directionChanged}); }
+                                                          /*this.setState({directionChanged: !this.state.directionChanged});*/ }
 
         console.log("set dir");
-    }
+
+}
 
     render() {
         // todo in arrow func sotto
@@ -122,6 +114,10 @@ class Extern extends Component {
                                        this.props.externData.callsToCollectUp = callsCollUp;
                                        this.props.externData.callsToCollectDown = callsCollDown;
                                        this.props.externData.pendingCalls = pending;
+
+                                       this.setMainDirection();
+                                       this.setState({directionChanged: !this.state.directionChanged});
+
                                     }
                                    }
                                    updateDirection={() => this.setMainDirection()}
@@ -178,31 +174,45 @@ class Extern extends Component {
 
     componentDidMount() {
         this.setMainDirection()
+        this.setState({directionChanged: !this.state.directionChanged});
         console.log("init pos " + this.props.externData.elevatorPosition);
         console.log("init dir " + this.props.externData.elevatorDirection);
-        // In case the direction does not change during init
+        /*// In case the direction does not change during init
         if (this.props.externData.pendingCalls.length > 0 || this.props.externData.callsToCollectDown.length > 0 || this.props.externData.callsToCollectUp.length > 0) {
             this.setState({stillSomeCallsToResolve: !this.state.stillSomeCallsToResolve})
-        }
+        }*/
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
-
+/*
         //This method is called as soon as properties changes but class is not yet updated, i.e. its components are not re-rendered (ypu need to reset the state for that)
         console.log("extern updated after receiving new prop");
-
+        console.log(prevProps.externData.callsToCollectUp)
+        console.log(this.props.externData.callsToCollectUp)
+        console.log(!this.compare(prevProps.externData.callsToCollectUp, this.props.externData.callsToCollectUp));
         if (!this.compare(prevProps.externData.callsToCollectUp, this.props.externData.callsToCollectUp)
-            || !this.compare(prevProps.externData.callsToCollectDown, this.props.externData.callsToCollectDown)
-            || !this.compare(prevProps.externData.pendingCalls, this.props.externData.pendingCalls)) {
+                || !this.compare(prevProps.externData.callsToCollectDown, this.props.externData.callsToCollectDown)
+                || !this.compare(prevProps.externData.pendingCalls, this.props.externData.pendingCalls)) {
 
-            this.setMainDirection();
+                this.setMainDirection();
         }
 
+        // Set default direction if all lists are empty
+        if (this.props.externData.pendingCalls.length === 0
+            && this.props.externData.callsToCollectUp.length === 0
+            && this.props.externData.callsToCollectDown.length === 0) {
+
+            console.log("1");
+            console.log("FINE");
+        }
+*/
         // If direction does not change (and thus the state), change the state to re-render the components with updated props
-        if (prevProps.externData.elevatorDirection === this.props.externData.elevatorDirection) {
+        /*if (prevProps.externData.elevatorDirection === this.props.externData.elevatorDirection
+            && (this.props.externData.pendingCalls.length > 0
+                || this.props.externData.callsToCollectUp.length > 0
+                || this.props.externData.callsToCollectDown.length > 0) ) {
             this.setState({propsChanged: !this.state.propsChanged});
-        }
-
+        }*/
 
     }
 }

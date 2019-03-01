@@ -34,10 +34,11 @@ class ElevatorAnimation extends Component {
     }
 
     // Time in ms
-    updateUp(time) {
+    update(time) {
         return new Promise(resolve => {
             setTimeout(() => {
-                resolve(this.props.updateFromAnimationUp(this.props.animationData.elevatorPosition, this.props.animationData.callsToCollectUp, this.props.animationData.pendingCalls));
+                resolve(this.props.updateFromAnimation(this.props.animationData.elevatorPosition, this.props.animationData.callsToCollectUp,
+                                                       this.props.animationData.callsToCollectDown, this.props.animationData.pendingCalls));
             }, time);
         });
     }
@@ -64,7 +65,7 @@ class ElevatorAnimation extends Component {
         this.isToMove = true;
     }
 
-    removeCalls(floor) {
+    removeCall(floor) {
 
         // Remove call from all lists where it is included
         if (this.props.animationData.callsToCollectUp.includes(floor)) {
@@ -89,9 +90,6 @@ class ElevatorAnimation extends Component {
         if (direction === "up") { call = Math.min(...list); }
         else { call = Math.max(...list); }
 
-        // Remove element from every list it is in
-        this.removeCalls(call);
-
         console.log("cazzo call")
 
         return call;
@@ -101,13 +99,12 @@ class ElevatorAnimation extends Component {
 
         let newFloor = 0; // default value
 
-        // todo!! problema qui, non arriva in fondo al metodo!!!
-
+        // Remove current location from any list (safety check)
+        this.removeCall(this.props.animationData.elevatorPosition); //todo dangerous?
 
         if (direction === "up") {
 
             // Check up-calls
-
             if (this.props.animationData.callsToCollectUp.length > 0) {
 
                 newFloor = this.checkCalls(direction, this.props.animationData.callsToCollectUp);
@@ -123,6 +120,13 @@ class ElevatorAnimation extends Component {
             else if (this.props.animationData.callsToCollectDown.length > 0 && this.props.animationData.callsToCollectDown.some(x => x > this.props.animationData.elevatorPosition)) {
                 newFloor = this.checkCalls(direction, this.props.animationData.callsToCollectDown.filter(x => x > this.props.animationData.elevatorPosition))
                 console.log("cazzo 3")
+            }
+
+            // Check if there are pending calls between the current and the target floor
+            if (this.props.animationData.pendingCalls.length > 0
+                && this.props.animationData.pendingCalls.some(x => x < newFloor && x > this.props.animationData.elevatorPosition)) {
+
+                newFloor = Math.min(...this.props.animationData.pendingCalls.filter(x => x < newFloor && x > this.props.animationData.elevatorPosition))
             }
 
         } else {
@@ -146,11 +150,21 @@ class ElevatorAnimation extends Component {
                 console.log("cazzo 7")
 
             }
+
+            // Check if there are pending calls between the current and the target floor
+            if (this.props.animationData.pendingCalls.length > 0
+                && this.props.animationData.pendingCalls.some(x => x > newFloor && x < this.props.animationData.elevatorPosition)) {
+
+                newFloor = Math.max(...this.props.animationData.pendingCalls.filter(x => x > newFloor && x < this.props.animationData.elevatorPosition))
+            }
+
         }
 
         // If valid newFloor, move otherwise change direction and resolve other calls
         if ([0,1,2,3,4,5].includes(newFloor)) {
             console.log("new floor cazzo " + newFloor)
+            // Remove element from every list it is in
+            this.removeCall(newFloor);
             this.decideMove(direction, newFloor);
         } else {
             // todo
@@ -163,8 +177,8 @@ class ElevatorAnimation extends Component {
         // Stop move if new floor is the same as the current floor
         if (floor === this.props.animationData.elevatorPosition) {
 
-            this.props.updateFromAnimation(floor, this.props.animationData.callsToCollectUp,
-                                           this.props.animationData.callsToCollectDown, this.props.animationData.pendingCalls)
+            this.props.updateFromAnimation(floor, this.props.animationData.callsToCollectUp, this.props.animationData.callsToCollectDown,
+                                           this.props.animationData.pendingCalls)
 
         }
 
@@ -174,16 +188,23 @@ class ElevatorAnimation extends Component {
 
     }
 
-    slideDoors() {
 
-    }
 
     async moveUp(floor) {
         // todo:remove prints
+        // Close current floor
+        console.log("current floor " + this.props.animationData.elevatorPosition);
 
-        console.log("move up");
-        this.props.updateFromAnimation(floor, this.props.animationData.callsToCollectUp,
-            this.props.animationData.callsToCollectDown, this.props.animationData.pendingCalls)/*
+        await this.closeElevatorDoor(this.props.animationData.elevatorPosition);
+
+        // Set new floor to current position
+        this.props.animationData.elevatorPosition = floor;
+
+        console.log("new current floor " + this.props.animationData.elevatorPosition);
+
+        await Promise.all([this.openElevatorDoor(floor), this.update(1000)]);
+
+        /*
         console.log(this.props.animationData.callsToCollectUp);
         console.log(this.props.animationData.callsToCollectDown);
         console.log(this.props.animationData.pendingCalls);
@@ -244,9 +265,18 @@ class ElevatorAnimation extends Component {
 
     async moveDown(floor) {
         // todo complete
-        console.log("move down");
-        this.props.updateFromAnimation(floor, this.props.animationData.callsToCollectUp,
-            this.props.animationData.callsToCollectDown, this.props.animationData.pendingCalls)
+
+        // Close current floor
+        console.log("current floor " + this.props.animationData.elevatorPosition);
+
+        await this.closeElevatorDoor(this.props.animationData.elevatorPosition);
+
+        // Set new floor to current position
+        this.props.animationData.elevatorPosition = floor;
+
+        console.log("new current floor " + this.props.animationData.elevatorPosition);
+
+        await Promise.all([this.openElevatorDoor(floor), this.update(1000)]);
         /*console.log(this.props.animationData.callsToCollectUp);
         console.log(this.props.animationData.callsToCollectDown);
         console.log(this.props.animationData.pendingCalls);
@@ -311,7 +341,7 @@ class ElevatorAnimation extends Component {
                 <img id="0" ref="fl0" src={closedLift} className="Elevator-img" />
                 <img id="1" ref="fl1" src={closedLift} className="Elevator-img" />
                 <img id="2" ref="fl2" src={closedLift} className="Elevator-img" />
-                <img id="3" ref="fl3" src={openLift} className="Elevator-img" />
+                <img id="3" ref="fl3" src={closedLift} className="Elevator-img" />
                 <img id="4" ref="fl4" src={closedLift} className="Elevator-img" />
                 <img id="5" ref="fl5" src={closedLift} className="Elevator-img" />
 
@@ -319,18 +349,24 @@ class ElevatorAnimation extends Component {
         );
     }
 
+    componentDidMount() {
+        this.refs['fl' + this.props.animationData.elevatorPosition].src = openLift
+    }
+
     componentDidUpdate() {
         console.log("update");
 
         // Safety check to avoid infinite loops
-        if (this.props.animationData.pendingCalls.length === 0
-            && this.props.animationData.callsToCollectUp.length === 0
-            && this.props.animationData.callsToCollectDown.length === 0) {
+        if (this.props.animationData.pendingCalls.length > 0
+            || this.props.animationData.callsToCollectUp.length > 0
+            || this.props.animationData.callsToCollectDown.length > 0) {
 
-            this.isToMove = false;
+         /*   this.isToMove = false;
+        } else {
+            this.isToMove = true;
         }
 
-        if (this.isToMove) {
+        if (this.isToMove) {*/
             console.log("dir " + this.props.animationData.elevatorDirection);
             this.selectFloor(this.props.animationData.elevatorDirection);
         }
