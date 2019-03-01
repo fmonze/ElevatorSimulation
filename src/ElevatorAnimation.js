@@ -74,7 +74,7 @@ class ElevatorAnimation extends Component {
 
     selectFloor(direction) {
 
-        let newFloor = 0; // default value
+        let newFloor = null;
 
         // Remove current location from any list (safety check)
         // this.removeCall(this.props.animationData.elevatorPosition); //todo dangerous?
@@ -145,7 +145,8 @@ class ElevatorAnimation extends Component {
             this.decideMove(direction, newFloor);
         } else {
             // todo
-            //this.props.updateDirection();
+            console.log("no floor found");
+            this.props.updateDirection();
         }
     }
 

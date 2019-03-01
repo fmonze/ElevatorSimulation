@@ -41,12 +41,12 @@ class UpDownCommand extends Component {
         return (
             <header style={divStyle}>
                     <div style={myRow}>
-                        <img src={floor} className="Up-Button"/>
+                        <img ref="baseUp" src={floor} className="Up-Button"/>
                         <img ref="up" src={currentFloor} className="Highlighted-Up-Button" options="up"
                              onClick={(e) => {this.handleClick(e)}} />
                     </div>
                     <div style={myRow}>
-                        <img src={floor} className="Down-Button"/>
+                        <img ref="baseDown" src={floor} className="Down-Button"/>
                         <img ref="down" src={currentFloor} className="Highlighted-Down-Button" options="down"
                              onClick={(e) => {this.handleClick(e)}} />
                     </div>
@@ -55,6 +55,19 @@ class UpDownCommand extends Component {
     }
 
     componentDidMount() {
+
+        // Floors 0 and 5 have only one direction options
+        switch (this.props.id) {
+            case 0:
+                this.refs.baseDown.remove();
+                this.refs.down.remove();
+                break
+            case 5:
+                this.refs.baseUp.remove();
+                this.refs.up.remove();
+                break
+        }
+
         // Switch floors on call
         if (this.props.upDownData.callsToCollectUp.includes(this.props.id)) { this.refs.up.style.opacity = 0.5; }
         if (this.props.upDownData.callsToCollectDown.includes(this.props.id)) { this.refs.down.style.opacity = 0.5; }
@@ -62,20 +75,25 @@ class UpDownCommand extends Component {
 
     componentDidUpdate() {
 
-        // todo prob non qui ma in extern per essere sincronizzato con
-        // todo still too fast!!
-
         // Switch off served floors
-        // /*
         if (this.props.upDownData.servedFloors[this.props.id]) {
 
-            this.refs.up.style.opacity = 0;
-            this.refs.down.style.opacity = 0;
+            // Floors 0 and 5 have only one direction options
+            switch (this.props.id) {
+                case 0:
+                    this.refs.up.style.opacity = 0
+                    break
+                case 5:
+                    this.refs.down.style.opacity = 0
+                    break
+                default:
+                    this.refs.up.style.opacity = 0;
+                    this.refs.down.style.opacity = 0;
+            }
 
             this.props.upDownData.servedFloors[this.props.id] = 0;
             this.props.updateSwitchButton(this.props.upDownData.servedFloors);
-
-        } // */
+        }
     }
 }
 

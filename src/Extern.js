@@ -123,7 +123,7 @@ class Extern extends Component {
 
                                     }
                                    }
-                                   updateDirection={() => this.setMainDirection()}
+                                   updateDirection={() => { this.setMainDirection(); this.setState({directionChanged: !this.state.directionChanged}); }}
                                    updateUpCalls={ (upCalls) => this.props.externData.callsToCollectUp = upCalls }
                                    updateDownCalls={ (downCalls) => this.props.externData.callsToCollectDown = downCalls }
                                    updateFromAnimationUp={(currentLocation, callsCollUp, pending) =>
