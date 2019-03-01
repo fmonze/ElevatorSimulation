@@ -24,7 +24,8 @@ class UpDownCommand extends Component {
         if(e.target.attributes.options.value === "up") {
             // Switch on button
             this.refs.up.style.opacity = 0.5; // todo: c'è un modo più elegante con set() ?
-            //console.log("click up " + this.props.id)
+            console.log("click up ")
+            console.log(this.props.id)
 
         } else {
             // Switch on button
@@ -35,14 +36,6 @@ class UpDownCommand extends Component {
 
         this.props.update(e.target.attributes.options.value, this.props.id);
     }
-
-    switchOff() {
-        // Switch off both button
-        console.log('switch off');
-        this.refs.up.style.opacity = 0;
-        this.refs.down.style.opacity = 0;
-    }
-
 
     render() {
         return (
@@ -61,11 +54,28 @@ class UpDownCommand extends Component {
         );
     }
 
+    componentDidMount() {
+        // Switch floors on call
+        if (this.props.upDownData.callsToCollectUp.includes(this.props.id)) { this.refs.up.style.opacity = 0.5; }
+        if (this.props.upDownData.callsToCollectDown.includes(this.props.id)) { this.refs.down.style.opacity = 0.5; }
+    }
+
     componentDidUpdate() {
-        if (this.props.isFloorServed(this.props.id)) {
-            // todo uncomment to activate switch off of button once served
-            // this.switchOff();
-        }
+
+        // todo prob non qui ma in extern per essere sincronizzato con
+        // todo still too fast!!
+
+        // Switch off served floors
+        // /*
+        if (this.props.upDownData.servedFloors[this.props.id]) {
+
+            this.refs.up.style.opacity = 0;
+            this.refs.down.style.opacity = 0;
+
+            this.props.upDownData.servedFloors[this.props.id] = 0;
+            this.props.updateSwitchButton(this.props.upDownData.servedFloors);
+
+        } // */
     }
 }
 

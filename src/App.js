@@ -18,6 +18,7 @@ class App extends Component {
             pendingCalls: [1],
             callsToCollectUp: [3],
             callsToCollectDown: [4, 2],
+            servedFloors: {0: null, 1: null, 2: null, 3: null, 4: null, 5: null} // dictionary floors (id: ifServed) -> 0 means yes (switch off) / 1 means no (switch on)
         };
     }
 

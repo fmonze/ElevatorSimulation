@@ -106,7 +106,7 @@ class Extern extends Component {
             <header className="App-body">
                 <ElevatorLocation locationData={this.props.externData} />
                 <ElevatorAnimation animationData={this.props.externData}
-                                   updateFromAnimation = {(currentLocation, callsCollUp, callsCollDown, pending) =>
+                                   updateFromAnimation = {(currentLocation, callsCollUp, callsCollDown, pending, servedFloors) =>
                                     {
                                        console.log("general update");
 
@@ -114,6 +114,9 @@ class Extern extends Component {
                                        this.props.externData.callsToCollectUp = callsCollUp;
                                        this.props.externData.callsToCollectDown = callsCollDown;
                                        this.props.externData.pendingCalls = pending;
+
+                                       // Check which buttons to switch off based on this dictionary
+                                       this.props.externData.servedFloors = servedFloors;
 
                                        this.setMainDirection();
                                        this.setState({directionChanged: !this.state.directionChanged});
@@ -146,6 +149,7 @@ class Extern extends Component {
                                    }
                                    }/>
                 <ElevatorCommands commandsData={this.props.externData}
+                                  updateSwitchFromCommands={(servedFloors) => {this.props.externData.servedFloors = servedFloors}}
                                   updateFromCommands={(direction, newFloor) =>
                                     {
                                         // Update calls
