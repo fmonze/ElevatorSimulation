@@ -17,6 +17,7 @@ class ElevatorCommands extends Component {
 
     render() {
         // todo se definisco come class App-header prende quelle caratteristiche
+        // todo switch off when not in calltocollect (up or down)
         return (
             <header>
                 <div className="container-fluid">
