@@ -13,11 +13,13 @@ class App extends Component {
         super(props);
         // Set initial state
         this.state = {
-            elevatorPosition: 3,
+            elevatorPosition: 1,
             elevatorDirection: "up", // default direction is UP (1)
-            pendingCalls: [1],
-            callsToCollectUp: [3],
-            callsToCollectDown: [4, 2],
+            pendingCalls: [],
+            callsToCollectUp: [],
+            callsToCollectDown: [],
+            callsFromCommandsUp: [],
+            callsFromCommandsDown: [],
             servedFloors: {0: null, 1: null, 2: null, 3: null, 4: null, 5: null} // dictionary floors (id: ifServed) -> 0 means yes (switch off) / 1 means no (switch on)
         };
     }

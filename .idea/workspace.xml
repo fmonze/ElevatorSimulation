@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/src/Extern.js" line="69" mnemonic="4" />
+    <bookmark url="file://$PROJECT_DIR$/src/Extern.js" line="71" mnemonic="4" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e568026b-ee1d-44dd-b0e3-86ef65790341" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ElevatorAnimation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ElevatorAnimation.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ElevatorCommands.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ElevatorCommands.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/ElevatorLocation.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/ElevatorLocation.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Extern.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Extern.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/UpDownCommand.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/UpDownCommand.js" afterDir="false" />
     </list>
@@ -23,8 +26,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/App.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" column="79" selection-start-line="20" selection-start-column="79" selection-end-line="20" selection-end-column="79" />
+            <state relative-caret-position="144">
+              <caret line="29" column="39" lean-forward="true" selection-start-line="29" selection-start-column="39" selection-end-line="31" selection-end-column="17" />
               <folding>
                 <element signature="e#0#45#0" expanded="true" />
               </folding>
@@ -35,20 +38,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Extern.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="181" column="8" selection-start-line="181" selection-start-column="8" selection-end-line="181" selection-end-column="8" />
-              <folding>
-                <element signature="e#0#39#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/ElevatorCommands.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="253">
-              <caret line="31" column="114" selection-start-line="31" selection-start-column="90" selection-end-line="31" selection-end-column="114" />
+            <state relative-caret-position="114">
+              <caret line="217" column="96" selection-start-line="217" selection-start-column="96" selection-end-line="217" selection-end-column="96" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -59,8 +50,32 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ElevatorAnimation.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="325" column="16" selection-start-line="325" selection-start-column="16" selection-end-line="325" selection-end-column="16" />
+            <state relative-caret-position="86">
+              <caret line="351" column="17" selection-start-line="351" selection-start-column="17" selection-end-line="351" selection-end-column="17" />
+              <folding>
+                <element signature="e#0#39#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/ElevatorCommands.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="219">
+              <caret line="194" column="53" selection-start-line="194" selection-start-column="53" selection-end-line="194" selection-end-column="53" />
+              <folding>
+                <element signature="e#0#39#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/UpDownCommand.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-161">
+              <caret line="36" column="55" lean-forward="true" selection-start-line="36" selection-start-column="55" selection-end-line="36" selection-end-column="55" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
@@ -71,30 +86,13 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/ElevatorLocation.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="580">
-              <caret line="46" lean-forward="true" selection-start-line="46" selection-end-line="46" />
+            <state relative-caret-position="465">
+              <caret line="31" column="17" selection-start-line="31" selection-start-column="16" selection-end-line="31" selection-end-column="17" />
               <folding>
                 <element signature="e#0#39#0" expanded="true" />
               </folding>
             </state>
           </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/UpDownCommand.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="365">
-              <caret line="66" column="38" selection-start-line="66" selection-start-column="38" selection-end-line="66" selection-end-column="38" />
-              <folding>
-                <element signature="e#0#39#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="mock://webpack-internal:///./src/ElevatorAnimation.js">
-          <provider selected="true" editor-type-id="vmFileEditor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
@@ -119,10 +117,13 @@
     <findStrings>
       <find>nativ</find>
       <find>CollectUp</find>
-      <find>update</find>
       <find>this.props.animationData.</find>
-      <find>updateFromAnimation</find>
+      <find>remove</find>
+      <find>update</find>
+      <find>updatefromanim</find>
+      <find>updateca</find>
       <find>target</find>
+      <find>updateFromAnimation</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -137,12 +138,12 @@
         <option value="$PROJECT_DIR$/src/Intern.js" />
         <option value="$PROJECT_DIR$/src/index.css" />
         <option value="$PROJECT_DIR$/src/App.css" />
-        <option value="$PROJECT_DIR$/src/ElevatorLocation.js" />
-        <option value="$PROJECT_DIR$/src/App.js" />
-        <option value="$PROJECT_DIR$/src/ElevatorCommands.js" />
-        <option value="$PROJECT_DIR$/src/Extern.js" />
-        <option value="$PROJECT_DIR$/src/ElevatorAnimation.js" />
         <option value="$PROJECT_DIR$/src/UpDownCommand.js" />
+        <option value="$PROJECT_DIR$/src/ElevatorLocation.js" />
+        <option value="$PROJECT_DIR$/src/ElevatorAnimation.js" />
+        <option value="$PROJECT_DIR$/src/App.js" />
+        <option value="$PROJECT_DIR$/src/Extern.js" />
+        <option value="$PROJECT_DIR$/src/ElevatorCommands.js" />
       </list>
     </option>
   </component>
@@ -233,12 +234,12 @@
       <workItem from="1551279595609" duration="29970000" />
       <workItem from="1551406288814" duration="1483000" />
       <workItem from="1551408079869" duration="2172000" />
-      <workItem from="1551416583966" duration="20973000" />
+      <workItem from="1551416583966" duration="39936000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="132261000" />
+    <option name="totallyTimeSpent" value="151224000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -260,13 +261,13 @@
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32959184" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32959184" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.34591836" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" sideWeight="0.4996986" visible="true" weight="0.34591836" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32839507" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32882884" />
-      <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50030136" side_tool="true" weight="0.34591836" />
       <window_info anchor="bottom" id="Terminal" order="10" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -300,173 +301,100 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/ElevatorAnimation.js</url>
-          <line>191</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/ElevatorAnimation.js</url>
-          <line>266</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/ElevatorAnimation.js</url>
+          <url>file://$PROJECT_DIR$/src/Extern.js</url>
           <line>200</line>
-          <option name="timeStamp" value="11" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/ElevatorAnimation.js</url>
-          <line>223</line>
-          <option name="timeStamp" value="19" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/ElevatorAnimation.js</url>
-          <line>296</line>
-          <option name="timeStamp" value="22" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/ElevatorAnimation.js</url>
-          <line>194</line>
-          <option name="timeStamp" value="27" />
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="99" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/Extern.js</url>
-          <line>181</line>
-          <option name="timeStamp" value="31" />
+          <line>205</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="100" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/Extern.js</url>
-          <line>77</line>
-          <option name="timeStamp" value="34" />
+          <line>53</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="102" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/Extern.js</url>
-          <line>88</line>
-          <option name="timeStamp" value="35" />
+          <line>48</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="105" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/ElevatorAnimation.js</url>
-          <line>240</line>
-          <option name="timeStamp" value="38" />
+          <line>362</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="108" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/ElevatorAnimation.js</url>
-          <line>277</line>
-          <option name="timeStamp" value="40" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/ElevatorAnimation.js</url>
-          <line>313</line>
-          <option name="timeStamp" value="41" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/ElevatorAnimation.js</url>
-          <line>21</line>
-          <option name="timeStamp" value="42" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/ElevatorAnimation.js</url>
-          <line>30</line>
-          <option name="timeStamp" value="43" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/ElevatorAnimation.js</url>
+          <url>file://$PROJECT_DIR$/src/Extern.js</url>
           <line>144</line>
-          <option name="timeStamp" value="56" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/ElevatorAnimation.js</url>
-          <line>155</line>
-          <option name="timeStamp" value="58" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/ElevatorAnimation.js</url>
-          <line>355</line>
-          <option name="timeStamp" value="59" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/ElevatorAnimation.js</url>
-          <line>167</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="65" />
+          <option name="timeStamp" value="111" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/ElevatorAnimation.js</url>
-          <line>165</line>
+          <line>351</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="66" />
+          <option name="timeStamp" value="114" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/ElevatorAnimation.js</url>
-          <line>39</line>
+          <line>369</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="75" />
+          <option name="timeStamp" value="117" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/ElevatorAnimation.js</url>
+          <line>365</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="119" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/Extern.js</url>
-          <line>213</line>
+          <line>129</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="76" />
+          <option name="timeStamp" value="120" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/Extern.js</url>
-          <line>204</line>
+          <line>130</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="77" />
+          <option name="timeStamp" value="121" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/Extern.js</url>
-          <line>196</line>
+          <line>133</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="78" />
+          <option name="timeStamp" value="122" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/Extern.js</url>
-          <line>115</line>
+          <line>134</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="79" />
+          <option name="timeStamp" value="123" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/ElevatorAnimation.js</url>
-          <line>344</line>
+          <url>file://$PROJECT_DIR$/src/Extern.js</url>
+          <line>212</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="85" />
+          <option name="timeStamp" value="124" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/ElevatorAnimation.js</url>
-          <line>176</line>
+          <url>file://$PROJECT_DIR$/src/Extern.js</url>
+          <line>215</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="86" />
+          <option name="timeStamp" value="125" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/ElevatorAnimation.js</url>
-          <line>181</line>
+          <url>file://$PROJECT_DIR$/src/ElevatorCommands.js</url>
+          <line>194</line>
           <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="87" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/ElevatorAnimation.js</url>
-          <line>186</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="88" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/UpDownCommand.js</url>
-          <line>78</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="96" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/UpDownCommand.js</url>
-          <line>36</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="97" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/UpDownCommand.js</url>
-          <line>60</line>
-          <properties lambdaOrdinal="-1" />
-          <option name="timeStamp" value="98" />
+          <option name="timeStamp" value="126" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -553,8 +481,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/ElevatorLocation.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="580">
-          <caret line="46" lean-forward="true" selection-start-line="46" selection-end-line="46" />
+        <state relative-caret-position="465">
+          <caret line="31" column="17" selection-start-line="31" selection-start-column="16" selection-end-line="31" selection-end-column="17" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>
@@ -563,38 +491,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/App.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="79" selection-start-line="20" selection-start-column="79" selection-end-line="20" selection-end-column="79" />
+        <state relative-caret-position="144">
+          <caret line="29" column="39" lean-forward="true" selection-start-line="29" selection-start-column="39" selection-end-line="31" selection-end-column="17" />
           <folding>
             <element signature="e#0#45#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/ElevatorCommands.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="253">
-          <caret line="31" column="114" selection-start-line="31" selection-start-column="90" selection-end-line="31" selection-end-column="114" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Extern.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="181" column="8" selection-start-line="181" selection-start-column="8" selection-end-line="181" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/ElevatorAnimation.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="325" column="16" selection-start-line="325" selection-start-column="16" selection-end-line="325" selection-end-column="16" />
+        <state relative-caret-position="114">
+          <caret line="217" column="96" selection-start-line="217" selection-start-column="96" selection-end-line="217" selection-end-column="96" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>
@@ -603,8 +511,28 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/UpDownCommand.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="365">
-          <caret line="66" column="38" selection-start-line="66" selection-start-column="38" selection-end-line="66" selection-end-column="38" />
+        <state relative-caret-position="-161">
+          <caret line="36" column="55" lean-forward="true" selection-start-line="36" selection-start-column="55" selection-end-line="36" selection-end-column="55" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ElevatorAnimation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="86">
+          <caret line="351" column="17" selection-start-line="351" selection-start-column="17" selection-end-line="351" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/ElevatorCommands.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="219">
+          <caret line="194" column="53" selection-start-line="194" selection-start-column="53" selection-end-line="194" selection-end-column="53" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
           </folding>

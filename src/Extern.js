@@ -2,18 +2,19 @@ import React, {Component} from 'react';
 import ElevatorLocation from './ElevatorLocation';
 import ElevatorAnimation from './ElevatorAnimation';
 import ElevatorCommands from './ElevatorCommands';
+import openLift from "./open_ elevator_img.jpg";
 
 class Extern extends Component {
 
     constructor(props) {
         super(props);
-        this.isOldTargetStillInProgress = false;
-        this.end = false;
+        this.isPushedCommands = false;
+        this.checkRefresh = false;
         this.state = {commandPushed: 0,
                       elevatorMoved: 0,
                       directionChanged: 0,
                       stillSomeCallsToResolve: 0,
-                      propsChanged: 0
+                      propsChanged: 0,
                      };
     }
 
@@ -39,30 +40,31 @@ class Extern extends Component {
 
     }
 
-    updateCallsUp(newFloor) {
-        //console.log("floorUp " + newFloor);
-        //console.log(this.props.externData.callsToCollectUp);
-        // Add floor to calls to collect and to pending calls if it has not already been collected
-        if (this.props.externData.callsToCollectUp.indexOf(newFloor) < 0) {
-            this.props.externData.callsToCollectUp.push(Number(newFloor));
-            //console.log(this.props.externData.callsToCollectUp);
+    updateCallsUp(upCallsList1, upCallsList2) {
 
-            // Change state to trigger re-render of child components (with updated props)
-            this.setState({commandPushed: !this.state.commandPushed});
+        let mergedList = null;
+
+        if (typeof upCallsList1 != 'undefined' && typeof upCallsList2 != 'undefined') {
+
+            mergedList = [...new Set([...upCallsList1, ...upCallsList2])];
         }
+
+        console.log("merge")
+
+        return mergedList;
     }
 
-    updateCallsDown(newFloor) {
-        //console.log("floorDown " + newFloor);
-        //console.log(this.props.externData);
-        // Add floor to calls to collect and to pending calls if it has not already been collected
-        if (this.props.externData.callsToCollectDown.indexOf(newFloor) < 0) {
-            this.props.externData.callsToCollectDown.push(Number(newFloor));
-            //console.log(this.props.externData.callsToCollectDown);
+    updateCallsDown(downCallsList1, downCallsList2) {
 
-            // Change state to trigger re-render of child components (with updated props)
-            this.setState({commandPushed: !this.state.commandPushed});
+        let mergedList = null;
+
+        if (typeof downCallsList1 != 'undefined' && typeof downCallsList2 != 'undefined') {
+
+            mergedList = [...new Set([...downCallsList1, ...downCallsList2])];
         }
+
+        return mergedList;
+
     }
 
     setMainDirection() {
@@ -98,34 +100,64 @@ class Extern extends Component {
 
         console.log("set dir");
 
-}
+    }
+
+    updateCalls() {
+
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve( this.setState({commandPushed: !this.state.commandPushed}) );
+            }, 1000);
+        });
+    }
 
     render() {
-        // todo in arrow func sotto
         return (
             <header className="App-body">
                 <ElevatorLocation locationData={this.props.externData} />
                 <ElevatorAnimation animationData={this.props.externData}
-                                   updateFromAnimation = {(currentLocation, callsCollUp, callsCollDown, pending, servedFloors) =>
+                                   updateFromAnimation = {async (currentLocation, callsCollUp, callsCollDown, pending, servedFloors, fromCommandsUp, fromCommandsDown) =>
                                     {
-                                       console.log("general update");
+                                       console.log("animation update");
+                                        console.log(callsCollUp)
+                                        console.log(callsCollDown)
+                                        console.log(fromCommandsUp)
+                                        console.log(fromCommandsDown)
 
                                        this.props.externData.elevatorPosition = currentLocation;
-                                       this.props.externData.callsToCollectUp = callsCollUp;
-                                       this.props.externData.callsToCollectDown = callsCollDown;
+
+                                       // Merge calls from commands without calls already served with the calls from the new inputs
+                                       this.props.externData.callsFromCommandsUp = this.updateCallsUp(fromCommandsUp, this.props.externData.callsFromCommandsUp)
+                                       this.props.externData.callsFromCommandsDown = this.updateCallsDown(fromCommandsDown, this.props.externData.callsFromCommandsDown)
+
+                                       // New lists of calls to collect are the merge of calls from commands and calls from animation
+                                       this.props.externData.callsToCollectUp = this.updateCallsUp(callsCollUp, this.props.externData.callsFromCommandsUp)
+                                       this.props.externData.callsToCollectDown = this.updateCallsDown(callsCollDown, this.props.externData.callsFromCommandsDown)
+
+                                       // Once "used" refresh the lists
+                                       // this.checkRefresh = true;
+
+                                       //this.props.externData.callsToCollectUp = callsCollUp;
+                                       //this.props.externData.callsToCollectDown = callsCollDown;
                                        this.props.externData.pendingCalls = pending;
 
                                        // Check which buttons to switch off based on this dictionary
                                        this.props.externData.servedFloors = servedFloors;
 
+                                        console.log(this.props.externData.callsFromCommandsUp);
+                                        console.log(this.props.externData.callsFromCommandsDown);
+                                        console.log(this.props.externData.callsToCollectUp);
+                                        console.log(this.props.externData.callsToCollectDown);
+
+
                                        this.setMainDirection();
-                                       this.setState({directionChanged: !this.state.directionChanged});
+                                       // await Promise.all([this.updateCalls()]);
+                                        this.setState({commandPushed: !this.state.commandPushed});
 
                                     }
+
                                    }
                                    updateDirection={() => { this.setMainDirection(); this.setState({directionChanged: !this.state.directionChanged}); }}
-                                   updateUpCalls={ (upCalls) => this.props.externData.callsToCollectUp = upCalls }
-                                   updateDownCalls={ (downCalls) => this.props.externData.callsToCollectDown = downCalls }
                                    updateFromAnimationUp={(currentLocation, callsCollUp, pending) =>
                                     {
                                         //console.log("merda");
@@ -146,30 +178,44 @@ class Extern extends Component {
                                        this.props.externData.elevatorPosition = currentLocation;
                                        this.props.externData.callsToCollectDown = callsCollDown;
                                        this.props.externData.pendingCalls = pending;
-                                   }
-                                   }/>
+                                   }}/>
                 <ElevatorCommands commandsData={this.props.externData}
                                   updateSwitchFromCommands={(servedFloors) => {this.props.externData.servedFloors = servedFloors}}
-                                  updateFromCommands={(direction, newFloor) =>
+                                  updateFromCommands={async (inputCommandsUp, inputCommandsDown) =>
                                     {
+
+                                        console.log("commands update bef ")
+                                        console.log(this.props.externData.callsFromCommandsUp);
+                                        console.log(this.props.externData.callsFromCommandsDown);
+
+                                        this.props.externData.callsFromCommandsUp = inputCommandsUp
+                                        this.props.externData.callsFromCommandsDown = inputCommandsDown
+
                                         // Update calls
                                         //console.log("receive floor from upDown component " + newFloor);
                                         //console.log("and also " + direction);
-                                        if (direction === "up") { this.updateCallsUp(newFloor) }
-                                        else { this.updateCallsDown(newFloor) }
 
-                                        // todo in teoria anche qui non sere perché vengone updatate le props e quindi chiama il metodo didupdated
-                                        // this.setMainDirection();
+/*
+                                        if (direction === "up") {
+                                            if (this.props.externData.callsFromCommandsUp.indexOf(newFloor) < 0) {
+                                                this.props.externData.callsFromCommandsUp.push(Number(newFloor));
+                                            }
+                                        }
+                                        else {
+                                            if (this.props.externData.callsFromCommandsDown.indexOf(newFloor) < 0) {
+                                                this.props.externData.callsFromCommandsDown.push(Number(newFloor));
+                                            }
+                                        }
 
-                                        console.log(this.props.externData.callsToCollectUp);
-                                        console.log(this.props.externData.callsToCollectDown);
+                                        console.log("commands update aft ")
+                                        console.log(this.props.externData.callsFromCommandsUp);
+                                        console.log(this.props.externData.callsFromCommandsDown);
+                                        this.isPushedCommands = true;
 
-                                        /*
-                                        // todo: temporary set main direction here
-                                        // Set main direction
-                                        this.props.externData.elevatorDirection = direction;
-                                        //console.log("which is updated globally " + this.props.externData.elevatorDirection);
-                                        */
+                                        // Refresh component with small delay so that no calls are missed
+                                        await Promise.all([this.updateCalls()]);
+*/
+                                        this.setState({commandPushed: !this.state.commandPushed});
                                     }
                                   }/>
             </header>
@@ -177,6 +223,7 @@ class Extern extends Component {
     }
 
     componentDidMount() {
+
         this.setMainDirection()
         this.setState({directionChanged: !this.state.directionChanged});
         console.log("init pos " + this.props.externData.elevatorPosition);
@@ -187,7 +234,35 @@ class Extern extends Component {
         }*/
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    async componentDidUpdate(prevProps, prevState, snapshot) {
+
+        console.log("component re-rendered -------------------------------------")
+
+
+/*
+        if (this.isPushedCommands) {
+            this.isPushedCommands = false;
+            this.updateCalls();
+        }
+*/
+        // If the two lists are different you can delete the content since it has been inserted in the calls to serve
+        /*
+        if (this.checkRefresh) {
+            this.checkRefresh = false;
+
+            if(this.compare(prevProps.externData.callsFromCommandsUp, this.props.externData.callsFromCommandsUp)) {
+                this.props.externData.callsFromCommandsUp = [];
+            }
+            if(this.compare(prevProps.externData.callsFromCommandsDown, this.props.externData.callsFromCommandsDown)) {
+                this.props.externData.callsFromCommandsDown = [];
+            }
+
+            this.setState({commandPushed: !this.state.commandPushed})
+        }
+
+        */
+
+
 /*
         //This method is called as soon as properties changes but class is not yet updated, i.e. its components are not re-rendered (ypu need to reset the state for that)
         console.log("extern updated after receiving new prop");

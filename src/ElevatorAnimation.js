@@ -38,7 +38,8 @@ class ElevatorAnimation extends Component {
         return new Promise(resolve => {
             setTimeout(() => {
                 resolve(this.props.updateFromAnimation(this.props.animationData.elevatorPosition, this.props.animationData.callsToCollectUp,
-                                                       this.props.animationData.callsToCollectDown, this.props.animationData.pendingCalls, this.props.animationData.servedFloors));
+                                                       this.props.animationData.callsToCollectDown, this.props.animationData.pendingCalls, this.props.animationData.servedFloors,
+                                                       this.props.animationData.callsFromCommandsUp, this.props.animationData.callsFromCommandsDown));
             }, time);
         });
     }
@@ -57,8 +58,15 @@ class ElevatorAnimation extends Component {
         if (this.props.animationData.pendingCalls.includes(floor)) {
             this.props.animationData.pendingCalls.splice(this.props.animationData.pendingCalls.indexOf(floor), 1)
         }
-    }
 
+        if (this.props.animationData.callsFromCommandsUp.includes(floor)) {
+            this.props.animationData.callsFromCommandsUp.splice(this.props.animationData.callsFromCommandsUp.indexOf(floor), 1)
+        }
+
+        if (this.props.animationData.callsFromCommandsDown.includes(floor)) {
+            this.props.animationData.callsFromCommandsDown.splice(this.props.animationData.callsFromCommandsDown.indexOf(floor), 1)
+        }
+    }
 
     checkCalls(direction, list) {
 
@@ -111,7 +119,6 @@ class ElevatorAnimation extends Component {
             // Check down-calls
             if (this.props.animationData.callsToCollectDown.length > 0) {
                 newFloor = this.checkCalls(direction, this.props.animationData.callsToCollectDown);
-                // Remove element from callsToCollect
                 console.log("cazzo 5")
 
             }
@@ -159,8 +166,8 @@ class ElevatorAnimation extends Component {
             this.props.animationData.servedFloors[floor] = 1;
 
             this.props.updateFromAnimation(floor, this.props.animationData.callsToCollectUp, this.props.animationData.callsToCollectDown,
-                                           this.props.animationData.pendingCalls, this.props.animationData.servedFloors)
-
+                                           this.props.animationData.pendingCalls, this.props.animationData.servedFloors,
+                                           this.props.animationData.callsFromCommandsUp, this.props.animationData.callsFromCommandsDown)
         }
 
         else if (direction === "up") { this.moveUp(floor) }
@@ -354,6 +361,15 @@ class ElevatorAnimation extends Component {
         if (this.isToMove) {*/
             console.log("dir " + this.props.animationData.elevatorDirection);
             this.selectFloor(this.props.animationData.elevatorDirection);
+        }
+        // If there are some other inputs from user, update parent component
+        else if ( this.props.animationData.callsFromCommandsUp.length > 0 || this.props.animationData.callsFromCommandsDown.length > 0 ) {
+
+            console.log("update from animation because inputs not empty")
+
+            this.props.updateFromAnimation(this.props.animationData.elevatorPosition, this.props.animationData.callsToCollectUp,
+                                           this.props.animationData.callsToCollectDown, this.props.animationData.pendingCalls, this.props.animationData.servedFloors,
+                                           this.props.animationData.callsFromCommandsUp, this.props.animationData.callsFromCommandsDown)
         }
     }
 

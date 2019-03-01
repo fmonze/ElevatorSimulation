@@ -31,9 +31,9 @@ class UpDownCommand extends Component {
             // Switch on button
             this.refs.down.style.opacity = 0.5; // todo: c'è un modo più elegante con set() ?
             //console.log("click down " + this.props.id)
-
         }
 
+        // Update parent component
         this.props.update(e.target.attributes.options.value, this.props.id);
     }
 

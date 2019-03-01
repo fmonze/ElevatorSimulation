@@ -16,7 +16,7 @@ class ElevatorLocation extends Component {
     setCurrentLocation(floor) {
         // Switch all floor other than the current one
         for (let i=0;i<6;i++) {
-            if (i == floor) { this.refs['highlighted' + floor].style.opacity = 0.5; }
+            if (i === floor) { this.refs['highlighted' + floor].style.opacity = 0.5; }
             else { this.refs['highlighted' + i].style.opacity = 0; }
         }
     }
