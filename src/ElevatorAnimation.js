@@ -12,7 +12,7 @@ class ElevatorAnimation extends Component {
     constructor(props) {
         super(props);
         // Control variable to use when updating the elevator properties from the while-loop during a move (so that the move is not started again - due to the component update - before it ends)
-        this.isToMove = true;
+        this.wasPendingCall = false;
     }
 
     openElevatorDoor(floor) {
@@ -39,7 +39,8 @@ class ElevatorAnimation extends Component {
             setTimeout(() => {
                 resolve(this.props.updateFromAnimation(this.props.animationData.elevatorPosition, this.props.animationData.callsToCollectUp,
                                                        this.props.animationData.callsToCollectDown, this.props.animationData.pendingCalls, this.props.animationData.servedFloors,
-                                                       this.props.animationData.callsFromCommandsUp, this.props.animationData.callsFromCommandsDown));
+                                                       this.props.animationData.callsFromCommandsUp, this.props.animationData.callsFromCommandsDown,
+                                                       this.props.animationData.intServedFloors));
             }, time);
         });
     }
@@ -57,6 +58,8 @@ class ElevatorAnimation extends Component {
 
         if (this.props.animationData.pendingCalls.includes(floor)) {
             this.props.animationData.pendingCalls.splice(this.props.animationData.pendingCalls.indexOf(floor), 1)
+
+            this.wasPendingCall = true;
         }
 
         if (this.props.animationData.callsFromCommandsUp.includes(floor)) {
@@ -81,6 +84,8 @@ class ElevatorAnimation extends Component {
     }
 
     selectFloor(direction) {
+
+        this.wasPendingCall = false; // Needed to switch off intern buttons
 
         let newFloor = null;
 
@@ -164,10 +169,12 @@ class ElevatorAnimation extends Component {
 
             // Remove floor need also its button to be switched off
             this.props.animationData.servedFloors[floor] = 1;
+            if (this.wasPendingCall) { this.props.animationData.intServedFloors[floor] = 1;}
 
             this.props.updateFromAnimation(floor, this.props.animationData.callsToCollectUp, this.props.animationData.callsToCollectDown,
                                            this.props.animationData.pendingCalls, this.props.animationData.servedFloors,
-                                           this.props.animationData.callsFromCommandsUp, this.props.animationData.callsFromCommandsDown)
+                                           this.props.animationData.callsFromCommandsUp, this.props.animationData.callsFromCommandsDown,
+                                           this.props.animationData.intServedFloors)
         }
 
         else if (direction === "up") { this.moveUp(floor) }
@@ -188,8 +195,9 @@ class ElevatorAnimation extends Component {
 
         console.log("new current floor " + this.props.animationData.elevatorPosition);
 
-        // Remove floor need also its button to be switched off
+        // Remove floor need also its buttons to be switched off
         this.props.animationData.servedFloors[floor] = 1;
+        if (this.wasPendingCall) { this.props.animationData.intServedFloors[floor] = 1;}
 
         await Promise.all([this.openElevatorDoor(floor), this.update(1000)]);
 
@@ -265,6 +273,7 @@ class ElevatorAnimation extends Component {
 
         // Remove floor need also its button to be switched off
         this.props.animationData.servedFloors[floor] = 1;
+        if (this.wasPendingCall) { this.props.animationData.intServedFloors[floor] = 1;}
 
         console.log("new current floor " + this.props.animationData.elevatorPosition);
 
@@ -347,6 +356,7 @@ class ElevatorAnimation extends Component {
 
     componentDidUpdate() {
         console.log("update");
+        console.log(this.props.animationData.intServedFloors)
 
         // Safety check to avoid infinite loops
         if (this.props.animationData.pendingCalls.length > 0
@@ -368,7 +378,7 @@ class ElevatorAnimation extends Component {
             console.log("update from animation because inputs not empty")
             this.props.updateFromAnimation(this.props.animationData.elevatorPosition, this.props.animationData.callsToCollectUp,
                 this.props.animationData.callsToCollectDown, this.props.animationData.pendingCalls, this.props.animationData.servedFloors,
-                this.props.animationData.callsFromCommandsUp, this.props.animationData.callsFromCommandsDown)
+                this.props.animationData.callsFromCommandsUp, this.props.animationData.callsFromCommandsDown, this.props.animationData.intServedFloors)
 
         }
         /*

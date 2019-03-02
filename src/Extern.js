@@ -48,31 +48,13 @@ class Extern extends Component {
 
     }
 
-    updateCallsUp(upCallsList1, upCallsList2) {
+    mergeCalls(callsList1, callsList2) {
 
-        let mergedList = null;
-
-        if (typeof upCallsList1 != 'undefined' && typeof upCallsList2 != 'undefined') {
-
-            mergedList = [...new Set([...upCallsList1, ...upCallsList2])];
-        }
+        let mergedList = [...new Set([...callsList1, ...callsList2])];
 
         console.log("merge")
 
         return mergedList;
-    }
-
-    updateCallsDown(downCallsList1, downCallsList2) {
-
-        let mergedList = null;
-
-        if (typeof downCallsList1 != 'undefined' && typeof downCallsList2 != 'undefined') {
-
-            mergedList = [...new Set([...downCallsList1, ...downCallsList2])];
-        }
-
-        return mergedList;
-
     }
 
     setMainDirection() {
@@ -104,15 +86,6 @@ class Extern extends Component {
 
     }
 
-    updateCalls() {
-
-        return new Promise(resolve => {
-            setTimeout(() => {
-                resolve( this.setState({commandPushed: !this.state.commandPushed}) );
-            }, 1000);
-        });
-    }
-
     render() {
         return (
             <header className="App-body">
@@ -120,7 +93,8 @@ class Extern extends Component {
                 <ElevatorAnimation animationData={this.props.externData}
                                    fetchNewInputs={this.animationCanImportNewInputs}
                                    updateDirection={() => { this.setMainDirection(); this.setState({directionChanged: !this.state.directionChanged}); }}
-                                   updateFromAnimation = {async (currentLocation, callsCollUp, callsCollDown, pending, servedFloors, fromCommandsUp, fromCommandsDown) =>
+                                   updateFromAnimation = {async (currentLocation, callsCollUp, callsCollDown, pending,
+                                                                 servedFloors, fromCommandsUp, fromCommandsDown, internServedFloors) =>
                                     {
                                        console.log("animation update");
                                         // console.log(callsCollUp)
@@ -130,15 +104,12 @@ class Extern extends Component {
 
                                        this.props.externData.elevatorPosition = currentLocation;
 
-                                        console.log("counter " + this.counter)
-
-                                        console.log(this.props.externData.callsFromCommandsUp);
                                         console.log(this.props.externData.callsFromCommandsDown);
 
                                         // Get new inputs from external commands
                                         if (this.animationCanImportNewInputs) {
 
-                                            // In case tehe user starts a query before the previous is finished, remove the calls that were already served by the previous call
+                                            // In case the user starts a query before the previous is finished, remove the calls that were already served by the previous call
                                                 for (let i=0; i < this.newInputsUp.length; i++ ) {
                                                     if (servedFloors[this.newInputsUp[i]]) {
                                                         this.newInputsUp.splice(i, 1)
@@ -151,13 +122,15 @@ class Extern extends Component {
                                                     }
                                                 }
 
+                                                // todo: do the same for internal calls??
 
                                             this.animationCanImportNewInputs= false
                                             this.receivedNewInputs = true
 
-                                            // Merge calls from commands without calls already served with the calls from the new inputs
-                                            this.props.externData.callsFromCommandsUp = this.updateCallsUp(fromCommandsUp, this.newInputsUp)
-                                            this.props.externData.callsFromCommandsDown = this.updateCallsDown(fromCommandsDown, this.newInputsDown)
+                                            // Merge calls from commands (without calls already served) with the calls from the new inputs
+                                            this.props.externData.callsFromCommandsUp = this.mergeCalls(fromCommandsUp, this.newInputsUp)
+                                            this.props.externData.callsFromCommandsDown = this.mergeCalls(fromCommandsDown, this.newInputsDown)
+
 
                                             console.log("got new inputs ---")
 
@@ -166,28 +139,29 @@ class Extern extends Component {
                                         }
 
                                        // New lists of calls to collect are the merge of calls from commands and calls from animation
-                                       this.props.externData.callsToCollectUp = this.updateCallsUp(callsCollUp, this.props.externData.callsFromCommandsUp)
-                                       this.props.externData.callsToCollectDown = this.updateCallsDown(callsCollDown, this.props.externData.callsFromCommandsDown)
+                                       this.props.externData.callsToCollectUp = this.mergeCalls(callsCollUp, this.props.externData.callsFromCommandsUp)
+                                       this.props.externData.callsToCollectDown = this.mergeCalls(callsCollDown, this.props.externData.callsFromCommandsDown)
 
                                        //this.props.externData.callsToCollectUp = callsCollUp;
-                                       //this.props.externData.callsToCollectDown = callsCollDown;
-                                       this.props.externData.pendingCalls = pending;
+                                       // Merge pending calls (without calls already served) with the pending calls from the internal inputs
+                                        this.props.externData.pendingCalls = this.mergeCalls(pending, this.props.externData.pendingCalls)
 
-                                       // Check which buttons to switch off based on this dictionary
-                                       this.props.externData.servedFloors = servedFloors;
-
-                                        console.log(this.props.externData.callsFromCommandsUp);
-                                        console.log(this.props.externData.callsFromCommandsDown);
-
+                                        console.log("meeerdaaaaa----------------------------")
+                                        console.log(this.props.externData.pendingCalls)
 
 
                                        this.setMainDirection();
-                                       // await Promise.all([this.updateCalls()]);
-                                       this.setState({commandPushed: !this.state.commandPushed});
+
+                                        // Check which buttons to switch off (external and internal) based on this dictionary
+                                        //this.props.externData.servedFloors = servedFloors;
+
+                                        // todo al posto di questo set state modifica served floors del parent (app così che si possano spegnere i bottoni serviti
+                                        this.props.updateInternServedFloors(internServedFloors, servedFloors)
+                                       //this.setState({commandPushed: !this.state.commandPushed});
 
                                     }} />
                 <ElevatorCommands commandsData={this.props.externData}
-                                  updateSwitchFromCommands={(servedFloors) => {this.props.externData.servedFloors = servedFloors}}
+                                  updateSwitchFromCommands={(servedFloors) => { console.log("now");  this.props.externData.servedFloors = servedFloors}}
                                   startTimer={this.startCollectTimer}
                                   setTimer={(isTimer) => {this.startCollectTimer = isTimer}}
                                   updateFromCommands={async (inputCommandsUp, inputCommandsDown) =>
@@ -258,7 +232,8 @@ class Extern extends Component {
     updateFromNewInputs() {
         console.log("cassuuu")
         this.animationCanImportNewInputs = true
-        this.setState({commandPushed: !this.state.commandPushed})
+        this.props.readyToGetPendingCalls(true);
+        //this.setState({commandPushed: !this.state.commandPushed})
     }
 
     getNewInputs() {

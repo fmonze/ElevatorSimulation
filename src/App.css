@@ -65,6 +65,17 @@
   max-height: 15%;
 }
 
+.Highlighted-Panel-Button {
+  padding: 5% 10%;
+  padding-left: 4.5%;
+  padding-right: 4.5%;
+  position: relative;
+  margin-left: -32.5%;
+  opacity: 0;
+  max-width: 80%;
+  max-height: 80%;
+}
+
 .Down-Button {
   padding: 4%;
   max-width: 45%;
@@ -112,7 +123,8 @@
   max-width: 80%;
   max-height: 80%;
   padding: 5% 10%;
-
+  padding-left: 4%;
+  padding-right: 4%;
 }
 
 

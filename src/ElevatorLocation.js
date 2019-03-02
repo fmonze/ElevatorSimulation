@@ -25,17 +25,17 @@ class ElevatorLocation extends Component {
         return (
             <header style={divStyle}>
                 <img src={floor} className="Floor-Button" />
-                <img id="0" ref="highlighted0" src={currentFloor} className="Highlighted-Floor-Button" />
+                <img id={0} ref="highlighted0" src={currentFloor} className="Highlighted-Floor-Button" />
                 <img src={floor} className="Floor-Button" />
-                <img id="1" ref="highlighted1" src={currentFloor} className="Highlighted-Floor-Button" />
+                <img id={1} ref="highlighted1" src={currentFloor} className="Highlighted-Floor-Button" />
                 <img src={floor} className="Floor-Button" />
-                <img id="2" ref="highlighted2" src={currentFloor} className="Highlighted-Floor-Button" />
+                <img id={2} ref="highlighted2" src={currentFloor} className="Highlighted-Floor-Button" />
                 <img src={floor} className="Floor-Button" />
-                <img id="3" ref="highlighted3" src={currentFloor} className="Highlighted-Floor-Button" />
+                <img id={3} ref="highlighted3" src={currentFloor} className="Highlighted-Floor-Button" />
                 <img src={floor} className="Floor-Button" />
-                <img id="4" ref="highlighted4" src={currentFloor} className="Highlighted-Floor-Button" />
+                <img id={4} ref="highlighted4" src={currentFloor} className="Highlighted-Floor-Button" />
                 <img src={floor} className="Floor-Button" />
-                <img id="5" ref="highlighted5" src={currentFloor} className="Highlighted-Floor-Button" />
+                <img id={5} ref="highlighted5" src={currentFloor} className="Highlighted-Floor-Button" />
             </header>
         );
     }
