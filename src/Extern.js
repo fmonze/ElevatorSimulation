@@ -10,11 +10,19 @@ class Extern extends Component {
         super(props);
         this.isPushedCommands = false;
         this.checkRefresh = false;
+        this.counter = 1;
+        this.newInputsUp = [];
+        this.newInputsDown = [];
+        this.startCollectTimer = true;
+        this.commandCanSendNewInputs = false;
+        this.animationCanImportNewInputs = false;
+        this.receivedNewInputs = false;
         this.state = {commandPushed: 0,
                       elevatorMoved: 0,
                       directionChanged: 0,
                       stillSomeCallsToResolve: 0,
                       propsChanged: 0,
+                      receivedInputs: false
                      };
     }
 
@@ -98,7 +106,7 @@ class Extern extends Component {
         if(this.props.externData.elevatorPosition === 0) { this.props.externData.elevatorDirection = "up";
                                                           /*this.setState({directionChanged: !this.state.directionChanged});*/ }
 
-        console.log("set dir");
+        //console.log("set dir");
 
     }
 
@@ -116,20 +124,41 @@ class Extern extends Component {
             <header className="App-body">
                 <ElevatorLocation locationData={this.props.externData} />
                 <ElevatorAnimation animationData={this.props.externData}
+                                   fetchNewInputs={this.animationCanImportNewInputs}
                                    updateFromAnimation = {async (currentLocation, callsCollUp, callsCollDown, pending, servedFloors, fromCommandsUp, fromCommandsDown) =>
                                     {
                                        console.log("animation update");
-                                        console.log(callsCollUp)
-                                        console.log(callsCollDown)
-                                        console.log(fromCommandsUp)
-                                        console.log(fromCommandsDown)
+                                        // console.log(callsCollUp)
+                                        // console.log(callsCollDown)
+                                        // console.log(fromCommandsUp)
+                                        // console.log(fromCommandsDown)
 
                                        this.props.externData.elevatorPosition = currentLocation;
 
-                                       // Merge calls from commands without calls already served with the calls from the new inputs
+                                        console.log("counter " + this.counter)
+
+                                        console.log(this.props.externData.callsFromCommandsUp);
+                                        console.log(this.props.externData.callsFromCommandsDown);
+
+                                        if (this.animationCanImportNewInputs) {
+
+                                            this.animationCanImportNewInputs= false
+                                            this.receivedNewInputs = true
+
+                                            // Merge calls from commands without calls already served with the calls from the new inputs
+                                            this.props.externData.callsFromCommandsUp = this.updateCallsUp(fromCommandsUp, this.newInputsUp)
+                                            this.props.externData.callsFromCommandsDown = this.updateCallsDown(fromCommandsDown, this.newInputsDown)
+
+                                            console.log("got new inputs ---")
+
+                                            console.log(this.props.externData.callsFromCommandsUp);
+                                            console.log(this.props.externData.callsFromCommandsDown);
+                                        }
+                                        /*
+                                        // Merge calls from commands without calls already served with the calls from the new inputs
                                        this.props.externData.callsFromCommandsUp = this.updateCallsUp(fromCommandsUp, this.props.externData.callsFromCommandsUp)
                                        this.props.externData.callsFromCommandsDown = this.updateCallsDown(fromCommandsDown, this.props.externData.callsFromCommandsDown)
-
+*/
                                        // New lists of calls to collect are the merge of calls from commands and calls from animation
                                        this.props.externData.callsToCollectUp = this.updateCallsUp(callsCollUp, this.props.externData.callsFromCommandsUp)
                                        this.props.externData.callsToCollectDown = this.updateCallsDown(callsCollDown, this.props.externData.callsFromCommandsDown)
@@ -146,13 +175,12 @@ class Extern extends Component {
 
                                         console.log(this.props.externData.callsFromCommandsUp);
                                         console.log(this.props.externData.callsFromCommandsDown);
-                                        console.log(this.props.externData.callsToCollectUp);
-                                        console.log(this.props.externData.callsToCollectDown);
+
 
 
                                        this.setMainDirection();
                                        // await Promise.all([this.updateCalls()]);
-                                        this.setState({commandPushed: !this.state.commandPushed});
+                                       this.setState({commandPushed: !this.state.commandPushed});
 
                                     }
 
@@ -181,15 +209,28 @@ class Extern extends Component {
                                    }}/>
                 <ElevatorCommands commandsData={this.props.externData}
                                   updateSwitchFromCommands={(servedFloors) => {this.props.externData.servedFloors = servedFloors}}
+                                  startTimer={this.startCollectTimer}
+                                  setTimer={(isTimer) => {this.startCollectTimer = isTimer}}
                                   updateFromCommands={async (inputCommandsUp, inputCommandsDown) =>
                                     {
+                                        //if (this.receivedNewInputs) {
+                                        console.log("get the new inputs from commands ------------------------")
 
-                                        console.log("commands update bef ")
-                                        console.log(this.props.externData.callsFromCommandsUp);
-                                        console.log(this.props.externData.callsFromCommandsDown);
+                                        this.newInputsUp = inputCommandsUp
+                                        this.newInputsDown = inputCommandsDown
 
-                                        this.props.externData.callsFromCommandsUp = inputCommandsUp
-                                        this.props.externData.callsFromCommandsDown = inputCommandsDown
+                                        console.log(this.newInputsUp);
+                                        console.log(this.newInputsDown);
+
+                                        this.startCollectTimer = false;
+
+                                        this.commandCanSendNewInputs = true;
+                                        //this.receivedNewInputs = false;
+                                        //this.animationCanImportNewInputs = true;
+
+
+                                        this.setState({receivedInputs: !this.state.receivedInputs})
+                                        //}
 
                                         // Update calls
                                         //console.log("receive floor from upDown component " + newFloor);
@@ -215,29 +256,61 @@ class Extern extends Component {
                                         // Refresh component with small delay so that no calls are missed
                                         await Promise.all([this.updateCalls()]);
 */
-                                        this.setState({commandPushed: !this.state.commandPushed});
+                                        //this.setState({commandPushed: !this.state.commandPushed});
                                     }
                                   }/>
             </header>
         );
     }
 
-    componentDidMount() {
+    async componentDidMount() {
 
         this.setMainDirection()
         this.setState({directionChanged: !this.state.directionChanged});
         console.log("init pos " + this.props.externData.elevatorPosition);
         console.log("init dir " + this.props.externData.elevatorDirection);
+
         /*// In case the direction does not change during init
         if (this.props.externData.pendingCalls.length > 0 || this.props.externData.callsToCollectDown.length > 0 || this.props.externData.callsToCollectUp.length > 0) {
             this.setState({stillSomeCallsToResolve: !this.state.stillSomeCallsToResolve})
         }*/
     }
 
+    updateFromNewInputs() {
+        console.log("cassuuu")
+        this.animationCanImportNewInputs = true
+        this.setState({commandPushed: !this.state.commandPushed})
+    }
+
+    getNewInputs() {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                console.log("waiting ...");
+
+                resolve(this.updateFromNewInputs());
+            }, 15000);
+        });
+    }
+
     async componentDidUpdate(prevProps, prevState, snapshot) {
 
         console.log("component re-rendered -------------------------------------")
 
+        // Start timer next time user click
+        if (this.receivedNewInputs) { console.log("timer can start"); this.receivedNewInputs = false; this.startCollectTimer = true; }
+
+        // Command received new input lists than can be send to animation
+        if(this.commandCanSendNewInputs) {
+            this.commandCanSendNewInputs = false;
+            //await this.getNewInputs();
+            this.updateFromNewInputs()
+        }
+/*
+        if (this.receivedNewInputs) {
+            this.receivedNewInputs = false;
+            this.commandCanSendNewInputs = true;
+            await this.getNewInputs();
+        }
 
 /*
         if (this.isPushedCommands) {

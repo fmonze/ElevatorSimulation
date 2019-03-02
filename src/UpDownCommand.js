@@ -24,13 +24,10 @@ class UpDownCommand extends Component {
         if(e.target.attributes.options.value === "up") {
             // Switch on button
             this.refs.up.style.opacity = 0.5; // todo: c'è un modo più elegante con set() ?
-            console.log("click up ")
-            console.log(this.props.id)
 
         } else {
             // Switch on button
             this.refs.down.style.opacity = 0.5; // todo: c'è un modo più elegante con set() ?
-            //console.log("click down " + this.props.id)
         }
 
         // Update parent component

@@ -362,6 +362,16 @@ class ElevatorAnimation extends Component {
             console.log("dir " + this.props.animationData.elevatorDirection);
             this.selectFloor(this.props.animationData.elevatorDirection);
         }
+
+        if(this.props.fetchNewInputs) {
+
+            console.log("update from animation because inputs not empty")
+            this.props.updateFromAnimation(this.props.animationData.elevatorPosition, this.props.animationData.callsToCollectUp,
+                this.props.animationData.callsToCollectDown, this.props.animationData.pendingCalls, this.props.animationData.servedFloors,
+                this.props.animationData.callsFromCommandsUp, this.props.animationData.callsFromCommandsDown)
+
+        }
+        /*
         // If there are some other inputs from user, update parent component
         else if ( this.props.animationData.callsFromCommandsUp.length > 0 || this.props.animationData.callsFromCommandsDown.length > 0 ) {
 
@@ -371,6 +381,8 @@ class ElevatorAnimation extends Component {
                                            this.props.animationData.callsToCollectDown, this.props.animationData.pendingCalls, this.props.animationData.servedFloors,
                                            this.props.animationData.callsFromCommandsUp, this.props.animationData.callsFromCommandsDown)
         }
+
+        */
     }
 
 }
