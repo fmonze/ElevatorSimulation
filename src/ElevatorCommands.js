@@ -41,14 +41,21 @@ class ElevatorCommands extends Component {
                                                }
                                            }
 
-                                           if (this.isTimer && this.props.startTimer) {
+                                           // Check timer status
+                                           if( !this.props.internPanelData.canStartTimer ) {
+                                               this.props.internPanelData.canStartTimer = true;
+                                               this.props.startedTimer();
+                                           }
+
+                                           // Start timer
+                                           if (this.isTimer && this.props.startTimer && !this.props.commandsData.isInternTimer) {
                                                alert("Define your query within the next " + this.time/1000 + " sec. After that time, you will see the result")
                                                this.isTimer = false;
                                                await this.collectNewInputs();
                                            }
                                        }}/>
                         <UpDownCommand id={1} upDownData={this.props.commandsData}
-                                       updateSwitchButton={(servedFloors) => { this.props.updateSwitchFromCommands(servedFloors)}}
+                                       ä
                                        update={async (direction, newFloor) => {
 
                                            if (direction === "up") {
@@ -63,7 +70,12 @@ class ElevatorCommands extends Component {
                                                }
                                            }
 
-                                           if (this.isTimer && this.props.startTimer) {
+                                           // Check timer status
+                                           if( !this.props.internPanelData.canStartTimer ) {
+                                               this.props.internPanelData.canStartTimer = true;
+                                               this.props.startedTimer();
+                                           }
+                                           if (this.isTimer && this.props.startTimer && !this.props.commandsData.isInternTimer) {
                                                alert("Define your query within the next " + this.time/1000 + " sec. After that time, you will see the result")
                                                this.isTimer = false;
                                                await this.collectNewInputs();
@@ -85,7 +97,13 @@ class ElevatorCommands extends Component {
                                                }
                                            }
 
-                                           if (this.isTimer && this.props.startTimer) {
+                                           // Check timer status
+                                           if( !this.props.internPanelData.canStartTimer ) {
+                                               this.props.internPanelData.canStartTimer = true;
+                                               this.props.startedTimer();
+                                           }
+
+                                           if (this.isTimer && this.props.startTimer && !this.props.commandsData.isInternTimer) {
                                                alert("Define your query within the next " + this.time/1000 + " sec. After that time, you will see the result")
                                                this.isTimer = false;
                                                await this.collectNewInputs();
@@ -107,7 +125,13 @@ class ElevatorCommands extends Component {
                                                }
                                            }
 
-                                           if (this.isTimer && this.props.startTimer) {
+                                           // Check timer status
+                                           if( !this.props.internPanelData.canStartTimer ) {
+                                               this.props.internPanelData.canStartTimer = true;
+                                               this.props.startedTimer();
+                                           }
+
+                                           if (this.isTimer && this.props.startTimer && !this.props.commandsData.isInternTimer) {
                                                alert("Define your query within the next " + this.time/1000 + " sec. After that time, you will see the result")
                                                this.isTimer = false;
                                                await this.collectNewInputs();
@@ -129,7 +153,13 @@ class ElevatorCommands extends Component {
                                                }
                                            }
 
-                                           if (this.isTimer && this.props.startTimer) {
+                                           // Check timer status
+                                           if( !this.props.internPanelData.canStartTimer ) {
+                                               this.props.internPanelData.canStartTimer = true;
+                                               this.props.startedTimer();
+                                           }
+
+                                           if (this.isTimer && this.props.startTimer && !this.props.commandsData.isInternTimer) {
                                                alert("Define your query within the next " + this.time/1000 + " sec. After that time, you will see the result")
                                                this.isTimer = false;
                                                await this.collectNewInputs();
@@ -151,7 +181,13 @@ class ElevatorCommands extends Component {
                                                }
                                            }
 
-                                           if (this.isTimer && this.props.startTimer) {
+                                           // Check timer status
+                                           if( !this.props.internPanelData.canStartTimer ) {
+                                               this.props.internPanelData.canStartTimer = true;
+                                               this.props.startedTimer();
+                                           }
+
+                                           if (this.isTimer && this.props.startTimer && !this.props.commandsData.isInternTimer) {
                                                alert("Define your query within the next " + this.time/1000 + " sec. After that time, you will see the result")
                                                this.isTimer = false;
                                                await this.collectNewInputs();
@@ -169,6 +205,7 @@ class ElevatorCommands extends Component {
         this.inputCommandsUp = [];
         this.inputCommandsDown = [];
         this.isTimer = true;
+        this.props.internPanelData.canStartTimer = false
     }
 
     collectNewInputs() {
@@ -178,6 +215,14 @@ class ElevatorCommands extends Component {
                 resolve(this.update());
             }, this.time);
         });
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+
+        // When intern timer is finished
+        if(this.props.commandsData.isreadyToUpdate) {
+            this.update()
+        }
     }
 }
 

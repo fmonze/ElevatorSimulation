@@ -29,6 +29,7 @@ class InternPanel extends Component {
 
     constructor(props) {
         super(props);
+        this.isTimer = true;
     }
 
     handleClick = e => {
@@ -36,8 +37,22 @@ class InternPanel extends Component {
         // Switch on button
         this.refs['highlighted' + e.target.id].style.opacity = 0.5 // todo: c'è un modo più elegante con set() ?
 
+        // Check timer status
+        if( !this.props.internPanelData.canStartTimer ) {
+            this.props.internPanelData.canStartTimer = true;
+            this.props.startedTimer();
+        }
+
+        // Start timer
+        if (this.isTimer && this.props.internPanelData.canStartTimer && this.props.internPanelData.isInternTimer) {
+            alert("Define your query within the next " + this.time/1000 + " sec. After that time, you will see the result")
+            this.isTimer = false;
+            this.startCollecting();
+        }
+
         // Update parent component
         this.props.update(e.target.id);
+
     }
 
     render() {
@@ -73,6 +88,21 @@ class InternPanel extends Component {
                 </div>
             </header>
         );
+    }
+
+    update() {
+        this.isTimer = true;
+        this.props.internPanelData.canStartTimer = false;
+        this.props.finishedTimer()
+    }
+
+    async startCollecting() {
+
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve(this.update());
+            }, this.time);
+        });
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
