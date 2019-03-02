@@ -84,8 +84,6 @@ class Extern extends Component {
             && !this.props.externData.callsToCollectDown.some(x => x > this.props.externData.elevatorPosition))) {
 
             this.props.externData.elevatorDirection = "down";
-            //this.setState({directionChanged: !this.state.directionChanged});
-            console.log("2");
             return;
         }
 
@@ -95,18 +93,14 @@ class Extern extends Component {
             && !this.props.externData.callsToCollectDown.some(x => x < this.props.externData.elevatorPosition))) {
 
             this.props.externData.elevatorDirection = "up";
-            //this.setState({directionChanged: !this.state.directionChanged});
-            console.log("3");
             return;
         }
 
         // Change when extremes are reached
-        if(this.props.externData.elevatorPosition === 5) { this.props.externData.elevatorDirection = "down";
-                                                          /*this.setState({directionChanged: !this.state.directionChanged});*/ }
-        if(this.props.externData.elevatorPosition === 0) { this.props.externData.elevatorDirection = "up";
-                                                          /*this.setState({directionChanged: !this.state.directionChanged});*/ }
+        if(this.props.externData.elevatorPosition === 5) { this.props.externData.elevatorDirection = "down"; }
+        if(this.props.externData.elevatorPosition === 0) { this.props.externData.elevatorDirection = "up"; }
 
-        //console.log("set dir");
+        console.log("set dir " + this.props.externData.elevatorDirection);
 
     }
 
@@ -125,6 +119,7 @@ class Extern extends Component {
                 <ElevatorLocation locationData={this.props.externData} />
                 <ElevatorAnimation animationData={this.props.externData}
                                    fetchNewInputs={this.animationCanImportNewInputs}
+                                   updateDirection={() => { this.setMainDirection(); this.setState({directionChanged: !this.state.directionChanged}); }}
                                    updateFromAnimation = {async (currentLocation, callsCollUp, callsCollDown, pending, servedFloors, fromCommandsUp, fromCommandsDown) =>
                                     {
                                        console.log("animation update");
@@ -140,7 +135,22 @@ class Extern extends Component {
                                         console.log(this.props.externData.callsFromCommandsUp);
                                         console.log(this.props.externData.callsFromCommandsDown);
 
+                                        // Get new inputs from external commands
                                         if (this.animationCanImportNewInputs) {
+
+                                            // In case tehe user starts a query before the previous is finished, remove the calls that were already served by the previous call
+                                                for (let i=0; i < this.newInputsUp.length; i++ ) {
+                                                    if (servedFloors[this.newInputsUp[i]]) {
+                                                        this.newInputsUp.splice(i, 1)
+                                                    }
+                                                }
+
+                                                for (let i=0; i < this.newInputsDown.length; i++ ) {
+                                                    if (servedFloors[this.newInputsDown[i]]) {
+                                                        this.newInputsDown.splice(i, 1)
+                                                    }
+                                                }
+
 
                                             this.animationCanImportNewInputs= false
                                             this.receivedNewInputs = true
@@ -154,17 +164,10 @@ class Extern extends Component {
                                             console.log(this.props.externData.callsFromCommandsUp);
                                             console.log(this.props.externData.callsFromCommandsDown);
                                         }
-                                        /*
-                                        // Merge calls from commands without calls already served with the calls from the new inputs
-                                       this.props.externData.callsFromCommandsUp = this.updateCallsUp(fromCommandsUp, this.props.externData.callsFromCommandsUp)
-                                       this.props.externData.callsFromCommandsDown = this.updateCallsDown(fromCommandsDown, this.props.externData.callsFromCommandsDown)
-*/
+
                                        // New lists of calls to collect are the merge of calls from commands and calls from animation
                                        this.props.externData.callsToCollectUp = this.updateCallsUp(callsCollUp, this.props.externData.callsFromCommandsUp)
                                        this.props.externData.callsToCollectDown = this.updateCallsDown(callsCollDown, this.props.externData.callsFromCommandsDown)
-
-                                       // Once "used" refresh the lists
-                                       // this.checkRefresh = true;
 
                                        //this.props.externData.callsToCollectUp = callsCollUp;
                                        //this.props.externData.callsToCollectDown = callsCollDown;
@@ -182,31 +185,7 @@ class Extern extends Component {
                                        // await Promise.all([this.updateCalls()]);
                                        this.setState({commandPushed: !this.state.commandPushed});
 
-                                    }
-
-                                   }
-                                   updateDirection={() => { this.setMainDirection(); this.setState({directionChanged: !this.state.directionChanged}); }}
-                                   updateFromAnimationUp={(currentLocation, callsCollUp, pending) =>
-                                    {
-                                        //console.log("merda");
-                                        //console.log(callsCollUp);
-                                        //console.log(pendingUp);
-
-                                        this.props.externData.elevatorPosition = currentLocation;
-                                        this.props.externData.callsToCollectUp = callsCollUp;
-                                        this.props.externData.pendingCalls = pending;
-                                    }
-                                   }
-                                   updateFromAnimationDown={(currentLocation, callsCollDown, pending) =>
-                                   {
-                                       //console.log("merda");
-                                       //console.log(callsCollDown);
-                                       //console.log(pendingDown);
-
-                                       this.props.externData.elevatorPosition = currentLocation;
-                                       this.props.externData.callsToCollectDown = callsCollDown;
-                                       this.props.externData.pendingCalls = pending;
-                                   }}/>
+                                    }} />
                 <ElevatorCommands commandsData={this.props.externData}
                                   updateSwitchFromCommands={(servedFloors) => {this.props.externData.servedFloors = servedFloors}}
                                   startTimer={this.startCollectTimer}
