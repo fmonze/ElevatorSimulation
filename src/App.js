@@ -63,9 +63,9 @@ class App extends Component {
             </div>
           </div>
         </div>
-        <footer className="App-footer">
-          Credits
-        </footer>
+        <span className="App-footer">
+            Crated by Francesca Monzeglio within a Discrete Event Systems Project
+        </span>
       </div>
     );
   }

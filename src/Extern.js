@@ -164,53 +164,25 @@ class Extern extends Component {
                                   updateSwitchFromCommands={(servedFloors) => { console.log("now");  this.props.externData.servedFloors = servedFloors}}
                                   startTimer={this.startCollectTimer}
                                   setTimer={(isTimer) => {this.startCollectTimer = isTimer}}
-                                  updateFromCommands={async (inputCommandsUp, inputCommandsDown) =>
-                                    {
-                                        //if (this.receivedNewInputs) {
-                                        console.log("get the new inputs from commands ------------------------")
+                                  updateFromCommands={async (inputCommandsUp, inputCommandsDown) => {
+                                      //if (this.receivedNewInputs) {
+                                      console.log("get the new inputs from commands ------------------------")
 
-                                        this.newInputsUp = inputCommandsUp
-                                        this.newInputsDown = inputCommandsDown
+                                      this.newInputsUp = inputCommandsUp
+                                      this.newInputsDown = inputCommandsDown
 
-                                        console.log(this.newInputsUp);
-                                        console.log(this.newInputsDown);
+                                      console.log(this.newInputsUp);
+                                      console.log(this.newInputsDown);
 
-                                        this.startCollectTimer = false;
+                                      this.startCollectTimer = false;
 
-                                        this.commandCanSendNewInputs = true;
-                                        //this.receivedNewInputs = false;
-                                        //this.animationCanImportNewInputs = true;
+                                      this.commandCanSendNewInputs = true;
+                                      //this.receivedNewInputs = false;
+                                      //this.animationCanImportNewInputs = true;
 
 
-                                        this.setState({receivedInputs: !this.state.receivedInputs})
-                                        //}
-
-                                        // Update calls
-                                        //console.log("receive floor from upDown component " + newFloor);
-                                        //console.log("and also " + direction);
-
-/*
-                                        if (direction === "up") {
-                                            if (this.props.externData.callsFromCommandsUp.indexOf(newFloor) < 0) {
-                                                this.props.externData.callsFromCommandsUp.push(Number(newFloor));
-                                            }
-                                        }
-                                        else {
-                                            if (this.props.externData.callsFromCommandsDown.indexOf(newFloor) < 0) {
-                                                this.props.externData.callsFromCommandsDown.push(Number(newFloor));
-                                            }
-                                        }
-
-                                        console.log("commands update aft ")
-                                        console.log(this.props.externData.callsFromCommandsUp);
-                                        console.log(this.props.externData.callsFromCommandsDown);
-                                        this.isPushedCommands = true;
-
-                                        // Refresh component with small delay so that no calls are missed
-                                        await Promise.all([this.updateCalls()]);
-*/
-                                        //this.setState({commandPushed: !this.state.commandPushed});
-                                    }
+                                      this.setState({receivedInputs: !this.state.receivedInputs})
+                                  }
                                   }/>
             </header>
         );
