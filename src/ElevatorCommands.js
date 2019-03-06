@@ -5,8 +5,6 @@ const myRow = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    paddingLeft: '5%',
-    paddingRight: '5%'
 };
 
 class ElevatorCommands extends Component {

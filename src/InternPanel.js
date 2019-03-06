@@ -5,7 +5,6 @@ import b2 from "./b2.svg";
 import b3 from "./b3.svg";
 import b4 from "./b4.svg";
 import b5 from "./b5.svg";
-
 import currentFloor from "./current_floor_button.svg";
 
 const rowStyle = {

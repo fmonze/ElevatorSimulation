@@ -127,4 +127,17 @@
   padding-right: 4%;
 }
 
+.Extern-Component {
+  width: inherit;
+}
+
+.myParagraph {
+  justify-content: center;
+  font-size: calc(10px + 1vmin);
+  color: #636D80;
+  text-align: left;
+  padding-top: 0%;
+  padding-bottom: 6%;
+}
+
 

@@ -200,64 +200,6 @@ class ElevatorAnimation extends Component {
         if (this.wasPendingCall) { this.props.animationData.intServedFloors[floor] = 1;}
 
         await Promise.all([this.openElevatorDoor(floor), this.update(1000)]);
-
-        /*
-        console.log(this.props.animationData.callsToCollectUp);
-        console.log(this.props.animationData.callsToCollectDown);
-        console.log(this.props.animationData.pendingCalls);
-
-        // Select new target floor
-        let newFloor = this.selectFloor();
-
-        console.log("new floor up " + newFloor);
-        console.log(this.props.animationData.pendingCalls);
-
-        // Stop move if new floor is the same as the current floor
-        if (newFloor === this.props.animationData.elevatorPosition) { this.props.updateFromAnimationUp(this.props.animationData.elevatorPosition,
-            this.props.animationData.callsToCollectUp, this.props.animationData.pendingCalls) }
-        // Go to the floor calling the elevator if no pending calls between current and target location
-        else {
-
-            // Close current floor
-            console.log("current floor " + this.props.animationData.elevatorPosition);
-            await this.closeElevatorDoor(this.props.animationData.elevatorPosition);
-
-            // Stop to resolve pending calls todo or callsUp to collect (if both up and down button are pushed then collect both)
-            while (this.props.animationData.pendingCalls.some(x => x < newFloor && x > this.props.animationData.elevatorPosition)) {
-                console.log("pending");
-                console.log(this.props.animationData.pendingCalls);
-                // Get pending floors from min to max (up direction)
-                let pendingFloor = Math.min(...this.props.animationData.pendingCalls.filter(x => x < newFloor && x > this.props.animationData.elevatorPosition))
-                console.log("pending floor");
-                console.log(pendingFloor);
-                this.props.animationData.pendingCalls.splice(this.props.animationData.pendingCalls.indexOf(pendingFloor), 1);
-                // In case the floor is also among the callsToCollectDown also remove from it
-                if (this.props.animationData.callsToCollectDown.length > 0 && this.props.animationData.callsToCollectDown.includes(pendingFloor)) { this.removeDownCall(pendingFloor) }
-                console.log("pending 2");
-                console.log(this.props.animationData.pendingCalls);
-
-                this.props.animationData.elevatorPosition = pendingFloor;
-                console.log("pending floor 2");
-                console.log(pendingFloor);
-                //Disable move before (intern) update
-                this.isToMove = false;
-                await Promise.all([this.updateUp(1000), this.openElevatorDoor(pendingFloor)]);
-                //console.log(this.props.animationData.pendingCallsUp);
-                await this.closeElevatorDoor(pendingFloor);
-
-            }
-
-            console.log("new floor up2 " + newFloor);
-
-            // Re-enable move
-            this.isToMove = true;
-            // Open new floor and update calls for the other components
-            this.props.animationData.elevatorPosition = newFloor;
-            await Promise.all([this.openElevatorDoor(newFloor), this.updateUp(1000)]);
-
-            console.log("finish move up");
-
-        } */
     }
 
     async moveDown(floor) {
@@ -278,63 +220,7 @@ class ElevatorAnimation extends Component {
         console.log("new current floor " + this.props.animationData.elevatorPosition);
 
         await Promise.all([this.openElevatorDoor(floor), this.update(1000)]);
-        /*console.log(this.props.animationData.callsToCollectUp);
-        console.log(this.props.animationData.callsToCollectDown);
-        console.log(this.props.animationData.pendingCalls);
-
-
-        if (this.props.animationData.callsToCollectDown.length > 0 || this.props.animationData.pendingCalls.length > 0) {
-
-            // Select new target floor
-            let newFloor = this.selectFloor();
-
-            console.log("new floor down " + newFloor);
-
-            // Stop move if new floor is the same as the current floor
-            if (newFloor === this.props.animationData.elevatorPosition) { this.props.updateFromAnimationDown(this.props.animationData.elevatorPosition,
-                                                                                                             this.props.animationData.callsToCollectDown, this.props.animationData.pendingCalls) }
-            // Go to the floor calling the elevator if no pending calls between current and target location
-            else {
-
-                // Close current floor
-                await this.closeElevatorDoor(this.props.animationData.elevatorPosition);
-
-                // Stop to resolve pending calls todo or callsUp to collect (if both up and down button are pushed then collect both)
-                while (this.props.animationData.pendingCalls.some(x => x > newFloor && x < this.props.animationData.elevatorPosition)) {
-                    console.log("pending");
-                    console.log(this.props.animationData.pendingCalls);
-                    // Get pending floors from max to min (down direction)
-                    let pendingFloor = Math.max(...this.props.animationData.pendingCalls.filter(x => x > newFloor && x < this.props.animationData.elevatorPosition))
-                    console.log("pending floor " + pendingFloor);
-                    this.props.animationData.pendingCalls.splice(this.props.animationData.pendingCalls.indexOf(pendingFloor), 1);
-                    // In case the floor is also among the callsToCollectUp also remove from it
-                    if (this.props.animationData.callsToCollectUp.length > 0 && this.props.animationData.callsToCollectUp.includes(pendingFloor)) { this.removeDownCall(pendingFloor) }
-
-                    this.props.animationData.elevatorPosition = pendingFloor;
-                    console.log("pending floor 2 " + pendingFloor);
-                    //Disable move before (intern) update
-                    this.isToMove = false;
-                    await Promise.all([ this.openElevatorDoor(pendingFloor), this.updateDown(1000)]);
-                    //console.log(this.props.animationData.pendingCalls);
-                    await this.closeElevatorDoor(pendingFloor);
-                }
-
-                console.log("new floor down2 " + newFloor);
-                console.log("current pos " + this.props.animationData.elevatorPosition);
-
-                // Re-enable move
-                this.isToMove = true;
-                // Open new floor and update calls for the other components
-                this.props.animationData.elevatorPosition = newFloor;
-
-                await Promise.all([this.updateDown(1000), this.openElevatorDoor(newFloor)]);
-
-                console.log("finish move down");
-
-            }
-
-        }*/
-    }
+}
 
     render() {
         return (
@@ -363,12 +249,6 @@ class ElevatorAnimation extends Component {
             || this.props.animationData.callsToCollectUp.length > 0
             || this.props.animationData.callsToCollectDown.length > 0) {
 
-         /*   this.isToMove = false;
-        } else {
-            this.isToMove = true;
-        }
-
-        if (this.isToMove) {*/
             console.log("dir " + this.props.animationData.elevatorDirection);
             this.selectFloor(this.props.animationData.elevatorDirection);
         }
@@ -381,18 +261,6 @@ class ElevatorAnimation extends Component {
                 this.props.animationData.callsFromCommandsUp, this.props.animationData.callsFromCommandsDown, this.props.animationData.intServedFloors)
 
         }
-        /*
-        // If there are some other inputs from user, update parent component
-        else if ( this.props.animationData.callsFromCommandsUp.length > 0 || this.props.animationData.callsFromCommandsDown.length > 0 ) {
-
-            console.log("update from animation because inputs not empty")
-
-            this.props.updateFromAnimation(this.props.animationData.elevatorPosition, this.props.animationData.callsToCollectUp,
-                                           this.props.animationData.callsToCollectDown, this.props.animationData.pendingCalls, this.props.animationData.servedFloors,
-                                           this.props.animationData.callsFromCommandsUp, this.props.animationData.callsFromCommandsDown)
-        }
-
-        */
     }
 
 }

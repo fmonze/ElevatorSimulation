@@ -1,10 +1,16 @@
 import React, {Component} from 'react';
-import floor from './floor_button.svg';
 import currentFloor from './current_floor_button.svg';
+import b0 from "./b0.svg";
+import b1 from "./b1.svg";
+import b2 from "./b2.svg";
+import b3 from "./b3.svg";
+import b4 from "./b4.svg";
+import b5 from "./b5.svg";
 
 const divStyle = {
     margin: '5px',
-    border: '5px solid blue'
+    border: '5px solid blue',
+    width: 'available'
 };
 
 class ElevatorLocation extends Component {
@@ -24,17 +30,17 @@ class ElevatorLocation extends Component {
     render() {
         return (
             <header style={divStyle}>
-                <img src={floor} className="Floor-Button" />
+                <img src={b0} className="Floor-Button" />
                 <img id={0} ref="highlighted0" src={currentFloor} className="Highlighted-Floor-Button" />
-                <img src={floor} className="Floor-Button" />
+                <img src={b1} className="Floor-Button" />
                 <img id={1} ref="highlighted1" src={currentFloor} className="Highlighted-Floor-Button" />
-                <img src={floor} className="Floor-Button" />
+                <img src={b2} className="Floor-Button" />
                 <img id={2} ref="highlighted2" src={currentFloor} className="Highlighted-Floor-Button" />
-                <img src={floor} className="Floor-Button" />
+                <img src={b3} className="Floor-Button" />
                 <img id={3} ref="highlighted3" src={currentFloor} className="Highlighted-Floor-Button" />
-                <img src={floor} className="Floor-Button" />
+                <img src={b4} className="Floor-Button" />
                 <img id={4} ref="highlighted4" src={currentFloor} className="Highlighted-Floor-Button" />
-                <img src={floor} className="Floor-Button" />
+                <img src={b5} className="Floor-Button" />
                 <img id={5} ref="highlighted5" src={currentFloor} className="Highlighted-Floor-Button" />
             </header>
         );

@@ -8,9 +8,6 @@ class Extern extends Component {
 
     constructor(props) {
         super(props);
-        this.isPushedCommands = false;
-        this.checkRefresh = false;
-        this.counter = 1;
         this.newInputsUp = [];
         this.newInputsDown = [];
         this.startCollectTimer = true;
@@ -89,18 +86,14 @@ class Extern extends Component {
     render() {
         return (
             <header className="App-body">
-                <ElevatorLocation locationData={this.props.externData} />
-                <ElevatorAnimation animationData={this.props.externData}
+                <ElevatorLocation className="Extern-Component" locationData={this.props.externData} />
+                <ElevatorAnimation className="Extern-Component" animationData={this.props.externData}
                                    fetchNewInputs={this.animationCanImportNewInputs}
                                    updateDirection={() => { this.setMainDirection(); this.setState({directionChanged: !this.state.directionChanged}); }}
                                    updateFromAnimation = {async (currentLocation, callsCollUp, callsCollDown, pending,
                                                                  servedFloors, fromCommandsUp, fromCommandsDown, internServedFloors) =>
                                     {
                                        console.log("animation update");
-                                        // console.log(callsCollUp)
-                                        // console.log(callsCollDown)
-                                        // console.log(fromCommandsUp)
-                                        // console.log(fromCommandsDown)
 
                                        this.props.externData.elevatorPosition = currentLocation;
 
@@ -122,8 +115,6 @@ class Extern extends Component {
                                                     }
                                                 }
 
-                                                // todo: do the same for internal calls??
-
                                             this.animationCanImportNewInputs= false
                                             this.receivedNewInputs = true
 
@@ -142,7 +133,6 @@ class Extern extends Component {
                                        this.props.externData.callsToCollectUp = this.mergeCalls(callsCollUp, this.props.externData.callsFromCommandsUp)
                                        this.props.externData.callsToCollectDown = this.mergeCalls(callsCollDown, this.props.externData.callsFromCommandsDown)
 
-                                       //this.props.externData.callsToCollectUp = callsCollUp;
                                        // Merge pending calls (without calls already served) with the pending calls from the internal inputs
                                         this.props.externData.pendingCalls = this.mergeCalls(pending, this.props.externData.pendingCalls)
 
@@ -151,21 +141,13 @@ class Extern extends Component {
 
 
                                        this.setMainDirection();
-
-                                        // Check which buttons to switch off (external and internal) based on this dictionary
-                                        //this.props.externData.servedFloors = servedFloors;
-
-                                        // todo al posto di questo set state modifica served floors del parent (app così che si possano spegnere i bottoni serviti
-                                        this.props.updateInternServedFloors(internServedFloors, servedFloors)
-                                       //this.setState({commandPushed: !this.state.commandPushed});
-
+                                       this.props.updateInternServedFloors(internServedFloors, servedFloors)
                                     }} />
-                <ElevatorCommands commandsData={this.props.externData}
+                <ElevatorCommands className="Extern-Component" commandsData={this.props.externData}
                                   updateSwitchFromCommands={(servedFloors) => { console.log("now");  this.props.externData.servedFloors = servedFloors}}
                                   startTimer={this.startCollectTimer}
                                   setTimer={(isTimer) => {this.startCollectTimer = isTimer}}
                                   updateFromCommands={async (inputCommandsUp, inputCommandsDown) => {
-                                      //if (this.receivedNewInputs) {
                                       console.log("get the new inputs from commands ------------------------")
 
                                       this.newInputsUp = inputCommandsUp
@@ -175,11 +157,9 @@ class Extern extends Component {
                                       console.log(this.newInputsDown);
 
                                       this.startCollectTimer = false;
-
                                       this.commandCanSendNewInputs = true;
-                                      //this.receivedNewInputs = false;
-                                      //this.animationCanImportNewInputs = true;
 
+                                      alert("Start resolution of your combination :)")
 
                                       this.setState({receivedInputs: !this.state.receivedInputs})
                                   }
@@ -194,18 +174,12 @@ class Extern extends Component {
         this.setState({directionChanged: !this.state.directionChanged});
         console.log("init pos " + this.props.externData.elevatorPosition);
         console.log("init dir " + this.props.externData.elevatorDirection);
-
-        /*// In case the direction does not change during init
-        if (this.props.externData.pendingCalls.length > 0 || this.props.externData.callsToCollectDown.length > 0 || this.props.externData.callsToCollectUp.length > 0) {
-            this.setState({stillSomeCallsToResolve: !this.state.stillSomeCallsToResolve})
-        }*/
     }
 
     updateFromNewInputs() {
         console.log("cassuuu")
         this.animationCanImportNewInputs = true
         this.props.readyToGetPendingCalls(true);
-        //this.setState({commandPushed: !this.state.commandPushed})
     }
 
     getNewInputs() {
@@ -231,67 +205,6 @@ class Extern extends Component {
             //await this.getNewInputs();
             this.updateFromNewInputs()
         }
-/*
-        if (this.receivedNewInputs) {
-            this.receivedNewInputs = false;
-            this.commandCanSendNewInputs = true;
-            await this.getNewInputs();
-        }
-
-/*
-        if (this.isPushedCommands) {
-            this.isPushedCommands = false;
-            this.updateCalls();
-        }
-*/
-        // If the two lists are different you can delete the content since it has been inserted in the calls to serve
-        /*
-        if (this.checkRefresh) {
-            this.checkRefresh = false;
-
-            if(this.compare(prevProps.externData.callsFromCommandsUp, this.props.externData.callsFromCommandsUp)) {
-                this.props.externData.callsFromCommandsUp = [];
-            }
-            if(this.compare(prevProps.externData.callsFromCommandsDown, this.props.externData.callsFromCommandsDown)) {
-                this.props.externData.callsFromCommandsDown = [];
-            }
-
-            this.setState({commandPushed: !this.state.commandPushed})
-        }
-
-        */
-
-
-/*
-        //This method is called as soon as properties changes but class is not yet updated, i.e. its components are not re-rendered (ypu need to reset the state for that)
-        console.log("extern updated after receiving new prop");
-        console.log(prevProps.externData.callsToCollectUp)
-        console.log(this.props.externData.callsToCollectUp)
-        console.log(!this.compare(prevProps.externData.callsToCollectUp, this.props.externData.callsToCollectUp));
-        if (!this.compare(prevProps.externData.callsToCollectUp, this.props.externData.callsToCollectUp)
-                || !this.compare(prevProps.externData.callsToCollectDown, this.props.externData.callsToCollectDown)
-                || !this.compare(prevProps.externData.pendingCalls, this.props.externData.pendingCalls)) {
-
-                this.setMainDirection();
-        }
-
-        // Set default direction if all lists are empty
-        if (this.props.externData.pendingCalls.length === 0
-            && this.props.externData.callsToCollectUp.length === 0
-            && this.props.externData.callsToCollectDown.length === 0) {
-
-            console.log("1");
-            console.log("FINE");
-        }
-*/
-        // If direction does not change (and thus the state), change the state to re-render the components with updated props
-        /*if (prevProps.externData.elevatorDirection === this.props.externData.elevatorDirection
-            && (this.props.externData.pendingCalls.length > 0
-                || this.props.externData.callsToCollectUp.length > 0
-                || this.props.externData.callsToCollectDown.length > 0) ) {
-            this.setState({propsChanged: !this.state.propsChanged});
-        }*/
-
     }
 }
 

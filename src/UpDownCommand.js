@@ -5,7 +5,6 @@ import currentFloor from './current_floor_button.svg';
 const divStyle = {
     margin: '5px',
     border: '5px solid blue',
-    maxWidth: "15%"
 };
 
 const myRow = {
