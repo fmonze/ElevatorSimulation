@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import openLift from './open_ elevator_img.jpg';
-import closedLift from './closed_ elevator_img.jpg';
+import openLift from './open_cage.svg';
+import closedLift from './closed_cage.svg';
 
 const divStyle = {
     margin: '5px',

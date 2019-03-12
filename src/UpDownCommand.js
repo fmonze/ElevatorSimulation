@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import floor from "./floor_button.svg";
+import upButton from "./upButton.svg";
+import downButton from './downButton.svg';
 import currentFloor from './current_floor_button.svg';
 
 const divStyle = {
@@ -37,12 +38,12 @@ class UpDownCommand extends Component {
         return (
             <header style={divStyle}>
                     <div style={myRow}>
-                        <img ref="baseUp" src={floor} className="Up-Button"/>
+                        <img ref="baseUp" src={upButton} className="Up-Button"/>
                         <img ref="up" src={currentFloor} className="Highlighted-Up-Button" options="up"
                              onClick={(e) => {this.handleClick(e)}} />
                     </div>
                     <div style={myRow}>
-                        <img ref="baseDown" src={floor} className="Down-Button"/>
+                        <img ref="baseDown" src={downButton} className="Down-Button"/>
                         <img ref="down" src={currentFloor} className="Highlighted-Down-Button" options="down"
                              onClick={(e) => {this.handleClick(e)}} />
                     </div>

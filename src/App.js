@@ -14,7 +14,7 @@ class App extends Component {
         this.internServedFloorsForAnimation = {0: null, 1: null, 2: null, 3: null, 4: null, 5: null};
         // Set initial state
         this.state = {
-            elevatorPosition: 1,
+            elevatorPosition: 0,
             elevatorDirection: "up", // default direction is UP
             pendingCalls: [],
             callsToCollectUp: [],
