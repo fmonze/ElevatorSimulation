@@ -8,9 +8,8 @@ import b4 from "./b4.svg";
 import b5 from "./b5.svg";
 
 const divStyle = {
-    margin: '5px',
-    border: '5px solid blue',
-    width: 'available'
+
+    width: '100%'
 };
 
 class ElevatorLocation extends Component {

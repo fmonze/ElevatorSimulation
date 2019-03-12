@@ -8,8 +8,6 @@ import b5 from "./b5.svg";
 import currentFloor from "./current_floor_button.svg";
 
 const rowStyle = {
-    margin: '5px',
-    border: '5px solid red',
     position: 'relative',
     display: 'flex',
     alignItems: 'center',
@@ -17,11 +15,9 @@ const rowStyle = {
 };
 
 const containerStyle = {
-    margin: '5px',
-    border: '5px solid red',
     position: 'relative',
-    minWidth: "300px", // todo: manually come si fa a farlo automatico? 100% che dovrebbe essere la width del parent non funziona
-    backgroundColor: '#525252',
+    minWidth: "30%", // todo: manually come si fa a farlo automatico? 100% che dovrebbe essere la width del parent non funziona
+    backgroundColor: '#4F5766',
 };
 
 class InternPanel extends Component {

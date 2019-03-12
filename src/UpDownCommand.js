@@ -4,8 +4,7 @@ import downButton from './downButton.svg';
 import currentFloor from './current_floor_button.svg';
 
 const divStyle = {
-    margin: '5px',
-    border: '5px solid blue',
+    padding: '10px',
 };
 
 const myRow = {
