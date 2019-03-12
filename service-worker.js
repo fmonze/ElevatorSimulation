@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/elevatorSimulation/precache-manifest.db453bccb335fb962995437e23ceac96.js"
+  "/ElevatorSimulation/precache-manifest.1c06738b8cc6a57a4d532f32c6fcb9e5.js"
 );
 
 workbox.clientsClaim();
@@ -28,7 +28,7 @@ self.__precacheManifest = [].concat(self.__precacheManifest || []);
 workbox.precaching.suppressWarnings();
 workbox.precaching.precacheAndRoute(self.__precacheManifest, {});
 
-workbox.routing.registerNavigationRoute("/elevatorSimulation/index.html", {
+workbox.routing.registerNavigationRoute("/ElevatorSimulation/index.html", {
   
   blacklist: [/^\/_/,/\/[^\/]+\.[^\/]+$/],
 });
