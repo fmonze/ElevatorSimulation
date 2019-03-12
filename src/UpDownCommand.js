@@ -71,7 +71,6 @@ class UpDownCommand extends Component {
 
     componentDidUpdate() {
 
-        console.log("here ")
         // Switch off served floors
         if (this.props.upDownData.servedFloors[this.props.id]) {
 

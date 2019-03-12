@@ -17,7 +17,6 @@ class ElevatorAnimation extends Component {
     openElevatorDoor(floor) {
         return new Promise(resolve => {
             setTimeout(() => {
-                console.log("open " + floor);
                 resolve(this.refs['fl' + floor].src = openLift);
             }, 1000);
         });
@@ -26,7 +25,6 @@ class ElevatorAnimation extends Component {
     closeElevatorDoor(floor) {
         return new Promise(resolve => {
             setTimeout(() => {
-                console.log("close " + floor);
                 resolve(this.refs['fl' + floor].src = closedLift);
             }, 1000);
         });
@@ -77,8 +75,6 @@ class ElevatorAnimation extends Component {
         if (direction === "up") { call = Math.min(...list); }
         else { call = Math.max(...list); }
 
-        console.log("cazzo call")
-
         return call;
     }
 
@@ -97,18 +93,15 @@ class ElevatorAnimation extends Component {
             if (this.props.animationData.callsToCollectUp.length > 0) {
 
                 newFloor = this.checkCalls(direction, this.props.animationData.callsToCollectUp);
-                console.log("cazzo 1")
             }
             // If no up-calls, check pending calls above current floor
             else if (this.props.animationData.pendingCalls.length > 0 && this.props.animationData.pendingCalls.some(x => x >= this.props.animationData.elevatorPosition)) {
 
                 newFloor = this.checkCalls(direction, this.props.animationData.pendingCalls.filter(x => x >= this.props.animationData.elevatorPosition))
-                console.log("cazzo 2")
             }
             // If no-above pending calls, check down-calls above current floor
             else if (this.props.animationData.callsToCollectDown.length > 0 && this.props.animationData.callsToCollectDown.some(x => x >= this.props.animationData.elevatorPosition)) {
                 newFloor = this.checkCalls(direction, this.props.animationData.callsToCollectDown.filter(x => x >= this.props.animationData.elevatorPosition))
-                console.log("cazzo 3")
             }
 
             // Check if there are pending calls between the current and the target floor
@@ -123,19 +116,16 @@ class ElevatorAnimation extends Component {
             // Check down-calls
             if (this.props.animationData.callsToCollectDown.length > 0) {
                 newFloor = this.checkCalls(direction, this.props.animationData.callsToCollectDown);
-                console.log("cazzo 5")
 
             }
             // If no down-calls, check pending calls below current floor
             else if (this.props.animationData.pendingCalls.length > 0 && this.props.animationData.pendingCalls.some(x => x <= this.props.animationData.elevatorPosition)) {
                 newFloor = this.checkCalls(direction, this.props.animationData.pendingCalls.filter(x => x <= this.props.animationData.elevatorPosition));
-                console.log("cazzo 6")
 
             }
             // If no-below pending calls, check up-calls below current floor
             else if (this.props.animationData.callsToCollectUp.length > 0 && this.props.animationData.callsToCollectUp.some(x => x <= this.props.animationData.elevatorPosition)) {
                 newFloor = this.checkCalls(direction, this.props.animationData.callsToCollectUp.filter(x => x <= this.props.animationData.elevatorPosition));
-                console.log("cazzo 7")
 
             }
 
@@ -150,13 +140,10 @@ class ElevatorAnimation extends Component {
 
         // If valid newFloor, move otherwise change direction and resolve other calls
         if ([0,1,2,3,4,5].includes(newFloor)) {
-            console.log("new floor cazzo " + newFloor)
             // Remove element from every list it is in
             this.removeCall(newFloor);
             this.decideMove(direction, newFloor);
         } else {
-            // todo
-            console.log("no floor found");
             this.props.updateDirection();
         }
     }
@@ -183,16 +170,13 @@ class ElevatorAnimation extends Component {
     }
 
     async moveUp(floor) {
-        // todo:remove prints
         // Close current floor
-        console.log("current floor " + this.props.animationData.elevatorPosition);
 
         await this.closeElevatorDoor(this.props.animationData.elevatorPosition);
 
         // Set new floor to current position
         this.props.animationData.elevatorPosition = floor;
 
-        console.log("new current floor " + this.props.animationData.elevatorPosition);
 
         // Remove floor need also its buttons to be switched off
         this.props.animationData.servedFloors[floor] = 1;
@@ -202,10 +186,8 @@ class ElevatorAnimation extends Component {
     }
 
     async moveDown(floor) {
-        // todo complete
 
         // Close current floor
-        console.log("current floor " + this.props.animationData.elevatorPosition);
 
         await this.closeElevatorDoor(this.props.animationData.elevatorPosition);
 
@@ -216,7 +198,6 @@ class ElevatorAnimation extends Component {
         this.props.animationData.servedFloors[floor] = 1;
         if (this.wasPendingCall) { this.props.animationData.intServedFloors[floor] = 1;}
 
-        console.log("new current floor " + this.props.animationData.elevatorPosition);
 
         await Promise.all([this.openElevatorDoor(floor), this.update(1000)]);
 }
@@ -240,8 +221,6 @@ class ElevatorAnimation extends Component {
     }
 
     componentDidUpdate() {
-        console.log("update");
-        console.log(this.props.animationData.intServedFloors)
 
         // Safety check to avoid infinite loops
         if (this.props.animationData.pendingCalls.length > 0
@@ -254,7 +233,6 @@ class ElevatorAnimation extends Component {
 
         if(this.props.fetchNewInputs) {
 
-            console.log("update from animation because inputs not empty")
             this.props.updateFromAnimation(this.props.animationData.elevatorPosition, this.props.animationData.callsToCollectUp,
                 this.props.animationData.callsToCollectDown, this.props.animationData.pendingCalls, this.props.animationData.servedFloors,
                 this.props.animationData.callsFromCommandsUp, this.props.animationData.callsFromCommandsDown, this.props.animationData.intServedFloors)

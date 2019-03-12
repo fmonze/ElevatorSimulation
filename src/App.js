@@ -37,15 +37,12 @@ class App extends Component {
             <div className="row row-eq-height">
               <div className="col-sm-7">
                 <Extern externData={this.state} readyToGetPendingCalls={ (isReady) => { if (isReady) {
-                                                                                             console.log("ready to get pending")
                                                                                              this.setState({pendingCalls: this.internInputCalls})
                                                                                        }
                                     }}
                         updateInternServedFloors={(internServedFloors, servedFloors) => {
 
                             // Check which pendingCall has been served
-                            console.log("pending without served ")
-                            console.log(internServedFloors)
                             this.internServedFloorsForIntern = internServedFloors;
                             this.setState({servedFloors: servedFloors, internServedFloors: this.internServedFloorsForAnimation })
 

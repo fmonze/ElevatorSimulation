@@ -93,8 +93,6 @@ class Extern extends Component {
                                    updateFromAnimation = {async (currentLocation, callsCollUp, callsCollDown, pending,
                                                                  servedFloors, fromCommandsUp, fromCommandsDown, internServedFloors) =>
                                     {
-                                       console.log("animation update");
-
                                        this.props.externData.elevatorPosition = currentLocation;
 
                                         console.log(this.props.externData.callsFromCommandsDown);
@@ -121,12 +119,6 @@ class Extern extends Component {
                                             // Merge calls from commands (without calls already served) with the calls from the new inputs
                                             this.props.externData.callsFromCommandsUp = this.mergeCalls(fromCommandsUp, this.newInputsUp)
                                             this.props.externData.callsFromCommandsDown = this.mergeCalls(fromCommandsDown, this.newInputsDown)
-
-
-                                            console.log("got new inputs ---")
-
-                                            console.log(this.props.externData.callsFromCommandsUp);
-                                            console.log(this.props.externData.callsFromCommandsDown);
                                         }
 
                                        // New lists of calls to collect are the merge of calls from commands and calls from animation
@@ -136,19 +128,14 @@ class Extern extends Component {
                                        // Merge pending calls (without calls already served) with the pending calls from the internal inputs
                                         this.props.externData.pendingCalls = this.mergeCalls(pending, this.props.externData.pendingCalls)
 
-                                        console.log("meeerdaaaaa----------------------------")
-                                        console.log(this.props.externData.pendingCalls)
-
-
                                        this.setMainDirection();
                                        this.props.updateInternServedFloors(internServedFloors, servedFloors)
                                     }} />
                 <ElevatorCommands className="Extern-Component" commandsData={this.props.externData}
-                                  updateSwitchFromCommands={(servedFloors) => { console.log("now");  this.props.externData.servedFloors = servedFloors}}
+                                  updateSwitchFromCommands={(servedFloors) => {  this.props.externData.servedFloors = servedFloors}}
                                   startTimer={this.startCollectTimer}
                                   setTimer={(isTimer) => {this.startCollectTimer = isTimer}}
                                   updateFromCommands={async (inputCommandsUp, inputCommandsDown) => {
-                                      console.log("get the new inputs from commands ------------------------")
 
                                       this.newInputsUp = inputCommandsUp
                                       this.newInputsDown = inputCommandsDown
@@ -172,12 +159,9 @@ class Extern extends Component {
 
         this.setMainDirection()
         this.setState({directionChanged: !this.state.directionChanged});
-        console.log("init pos " + this.props.externData.elevatorPosition);
-        console.log("init dir " + this.props.externData.elevatorDirection);
     }
 
     updateFromNewInputs() {
-        console.log("cassuuu")
         this.animationCanImportNewInputs = true
         this.props.readyToGetPendingCalls(true);
     }
@@ -185,7 +169,6 @@ class Extern extends Component {
     getNewInputs() {
         return new Promise(resolve => {
             setTimeout(() => {
-                console.log("waiting ...");
 
                 resolve(this.updateFromNewInputs());
             }, 15000);
@@ -194,10 +177,9 @@ class Extern extends Component {
 
     async componentDidUpdate(prevProps, prevState, snapshot) {
 
-        console.log("component re-rendered -------------------------------------")
 
         // Start timer next time user click
-        if (this.receivedNewInputs) { console.log("timer can start"); this.receivedNewInputs = false; this.startCollectTimer = true; }
+        if (this.receivedNewInputs) { this.receivedNewInputs = false; this.startCollectTimer = true; }
 
         // Command received new input lists than can be send to animation
         if(this.commandCanSendNewInputs) {
