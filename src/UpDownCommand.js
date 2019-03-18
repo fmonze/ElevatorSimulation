@@ -5,10 +5,14 @@ import currentFloor from './current_floor_button.svg';
 
 const divStyle = {
     padding: '10px',
+    margin: '5px',
+    border: '5px solid green'
 };
 
 const myRow = {
     position: 'relative',
+    margin: '5px',
+    border: '5px solid yellow'
 };
 
 // todo: meglio togliere le classi dal css e mettere gli stili dei tre bottoni (down up e highlighted) qui?

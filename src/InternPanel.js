@@ -11,10 +11,14 @@ const rowStyle = {
     position: 'relative',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    margin: '5px',
+    border: '5px solid red'
 };
 
 const containerStyle = {
+    margin: '5px',
+    border: '5px solid blue',
     position: 'relative',
     minWidth: "30%", // todo: manually come si fa a farlo automatico? 100% che dovrebbe essere la width del parent non funziona
     backgroundColor: '#4F5766',
