@@ -46,8 +46,8 @@
 .Floor-Button {
   padding-top: 2%;
   padding-bottom: 2%;
-  padding-left: 3.5%;
-  padding-right: 3.5%;
+  padding-left: 4.5%;
+  padding-right: 4.5%;
   position: relative;
   max-width: 15%;
   max-height: 15%;
@@ -56,13 +56,24 @@
 .Highlighted-Floor-Button {
   padding-top: 2%;
   padding-bottom: 2%;
-  padding-left: 3.5%;
-  padding-right: 3.5%;
+  padding-left: 4.5%;
+  padding-right: 4.5%;
   position: relative;
   margin-left: -15%;
   opacity: 0;
   max-width: 15%;
   max-height: 15%;
+}
+
+.Highlighted-Panel-Button {
+  padding: 5% 10%;
+  padding-left: 4.5%;
+  padding-right: 4.5%;
+  position: relative;
+  margin-left: -33.2%;
+  opacity: 0;
+  max-width: 80%;
+  max-height: 80%;
 }
 
 .Down-Button {
@@ -112,7 +123,21 @@
   max-width: 80%;
   max-height: 80%;
   padding: 5% 10%;
+  padding-left: 4%;
+  padding-right: 4%;
+}
 
+.Extern-Component {
+  width: inherit;
+}
+
+.myParagraph {
+  justify-content: center;
+  font-size: calc(10px + 1vmin);
+  color: #636D80;
+  text-align: left;
+  padding-top: 0%;
+  padding-bottom: 6%;
 }
 
 

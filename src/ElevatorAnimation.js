@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import openLift from './open_ elevator_img.jpg';
-import closedLift from './closed_ elevator_img.jpg';
+import openLift from './open_cage.svg';
+import closedLift from './closed_cage.svg';
 
 const divStyle = {
     margin: '5px',
@@ -11,6 +11,8 @@ class ElevatorAnimation extends Component {
 
     constructor(props) {
         super(props);
+        // Control variable to use when updating the elevator properties from the while-loop during a move (so that the move is not started again - due to the component update - before it ends)
+        this.wasPendingCall = false;
     }
 
     openElevatorDoor(floor) {
@@ -29,116 +31,182 @@ class ElevatorAnimation extends Component {
         });
     }
 
-    updateUp() {
+    // Time in ms
+    update(time) {
         return new Promise(resolve => {
             setTimeout(() => {
-                resolve(this.props.updateFromAnimationUp(this.props.animationData.elevatorPosition, this.props.animationData.callsToCollectUp, this.props.animationData.pendingCalls));
-            }, 1000);
+                resolve(this.props.updateFromAnimation(this.props.animationData.elevatorPosition, this.props.animationData.callsToCollectUp,
+                                                       this.props.animationData.callsToCollectDown, this.props.animationData.pendingCalls, this.props.animationData.servedFloors,
+                                                       this.props.animationData.callsFromCommandsUp, this.props.animationData.callsFromCommandsDown,
+                                                       this.props.animationData.intServedFloors));
+            }, time);
         });
     }
 
-    updateDown() {
-        return new Promise(resolve => {
-            setTimeout(() => {
-                resolve(this.props.updateFromAnimationDown(this.props.animationData.elevatorPosition, this.props.animationData.callsToCollectDown, this.props.animationData.pendingCalls));
-            }, 1000);
-        });
+    removeCall(floor) {
+
+        // Remove call from all lists where it is included
+        if (this.props.animationData.callsToCollectUp.includes(floor)) {
+            this.props.animationData.callsToCollectUp.splice(this.props.animationData.callsToCollectUp.indexOf(floor), 1)
+        }
+
+        if (this.props.animationData.callsToCollectDown.includes(floor)) {
+            this.props.animationData.callsToCollectDown.splice(this.props.animationData.callsToCollectDown.indexOf(floor), 1)
+        }
+
+        if (this.props.animationData.pendingCalls.includes(floor)) {
+            this.props.animationData.pendingCalls.splice(this.props.animationData.pendingCalls.indexOf(floor), 1)
+
+            this.wasPendingCall = true;
+        }
+
+        if (this.props.animationData.callsFromCommandsUp.includes(floor)) {
+            this.props.animationData.callsFromCommandsUp.splice(this.props.animationData.callsFromCommandsUp.indexOf(floor), 1)
+        }
+
+        if (this.props.animationData.callsFromCommandsDown.includes(floor)) {
+            this.props.animationData.callsFromCommandsDown.splice(this.props.animationData.callsFromCommandsDown.indexOf(floor), 1)
+        }
     }
 
-    async moveUp() {
-        // todo: insert consideration of calls to collect while serving the calls and remove prints
+    checkCalls(direction, list) {
 
-        if (this.props.animationData.callsToCollectUp.length > 0 || this.props.animationData.pendingCalls.length > 0) {
-            // Close current floor
-            console.log("current floor " + this.props.animationData.elevatorPosition);
-            await this.closeElevatorDoor(this.props.animationData.elevatorPosition);
+        let call
 
-            // Go to the floor calling the elevator if no pending calls between current and target location
-            //console.log("up bef ");
-            //console.log(this.props.animationData.callsToCollectUp);
+        if (direction === "up") { call = Math.min(...list); }
+        else { call = Math.max(...list); }
 
-            let newFloor = 0; // default value
-            // First go to minimum floor to collect or pending floor (if no other calls to collect
+        return call;
+    }
+
+    selectFloor(direction) {
+
+        this.wasPendingCall = false; // Needed to switch off intern buttons
+
+        let newFloor = null;
+
+        // Remove current location from any list (safety check)
+        // this.removeCall(this.props.animationData.elevatorPosition); //todo dangerous?
+
+        if (direction === "up") {
+
+            // Check up-calls
             if (this.props.animationData.callsToCollectUp.length > 0) {
-                newFloor = Math.min(...this.props.animationData.callsToCollectUp);
-                this.props.animationData.callsToCollectUp.splice(this.props.animationData.callsToCollectUp.indexOf(newFloor), 1); // Remove element from callsToCollect
-            } else {
-                newFloor = Math.min(...this.props.animationData.pendingCalls.filter( x => x > this.props.animationData.elevatorPosition));
-                this.props.animationData.pendingCalls.splice(this.props.animationData.pendingCalls.indexOf(newFloor), 1); // Remove element from pendingCalls
+
+                newFloor = this.checkCalls(direction, this.props.animationData.callsToCollectUp);
+            }
+            // If no up-calls, check pending calls above current floor
+            else if (this.props.animationData.pendingCalls.length > 0 && this.props.animationData.pendingCalls.some(x => x >= this.props.animationData.elevatorPosition)) {
+
+                newFloor = this.checkCalls(direction, this.props.animationData.pendingCalls.filter(x => x >= this.props.animationData.elevatorPosition))
+            }
+            // If no-above pending calls, check down-calls above current floor
+            else if (this.props.animationData.callsToCollectDown.length > 0 && this.props.animationData.callsToCollectDown.some(x => x >= this.props.animationData.elevatorPosition)) {
+                newFloor = this.checkCalls(direction, this.props.animationData.callsToCollectDown.filter(x => x >= this.props.animationData.elevatorPosition))
             }
 
-            //console.log("up aft");
-            //console.log(this.props.animationData.callsToCollectUp);
+            // Check if there are pending calls between the current and the target floor
+            if (this.props.animationData.pendingCalls.length > 0
+                && this.props.animationData.pendingCalls.some(x => x <= newFloor && x >= this.props.animationData.elevatorPosition)) {
 
-            // Stop to resolve pending calls todo or callsUp to collect (if both up and down button are pushed then collect both)
-            while (this.props.animationData.pendingCalls.some(x => x < newFloor && x > this.props.animationData.elevatorPosition)) {
-                console.log("pending");
-                console.log(this.props.animationData.pendingCalls);
-                // Get pending floors from min to max (up direction)
-                let pendingFloor = Math.min(...this.props.animationData.pendingCalls.filter( x => x < newFloor && x > this.props.animationData.elevatorPosition))
-                console.log("pending floor");
-                console.log(pendingFloor);
-                this.props.animationData.pendingCalls.splice(this.props.animationData.pendingCalls.indexOf(pendingFloor), 1);
-                console.log("pending 2");
-                console.log(this.props.animationData.pendingCalls);
+                newFloor = Math.min(...this.props.animationData.pendingCalls.filter(x => x <= newFloor && x >= this.props.animationData.elevatorPosition))
+            }
 
-                this.props.animationData.elevatorPosition = pendingFloor;
-                console.log("pending floor 2");
-                console.log(pendingFloor);
-                await Promise.all([this.updateUp(), this.openElevatorDoor(pendingFloor)]);
-                //console.log(this.props.animationData.pendingCallsUp);
-                await this.closeElevatorDoor(pendingFloor);
+        } else {
+
+            // Check down-calls
+            if (this.props.animationData.callsToCollectDown.length > 0) {
+                newFloor = this.checkCalls(direction, this.props.animationData.callsToCollectDown);
+
+            }
+            // If no down-calls, check pending calls below current floor
+            else if (this.props.animationData.pendingCalls.length > 0 && this.props.animationData.pendingCalls.some(x => x <= this.props.animationData.elevatorPosition)) {
+                newFloor = this.checkCalls(direction, this.props.animationData.pendingCalls.filter(x => x <= this.props.animationData.elevatorPosition));
+
+            }
+            // If no-below pending calls, check up-calls below current floor
+            else if (this.props.animationData.callsToCollectUp.length > 0 && this.props.animationData.callsToCollectUp.some(x => x <= this.props.animationData.elevatorPosition)) {
+                newFloor = this.checkCalls(direction, this.props.animationData.callsToCollectUp.filter(x => x <= this.props.animationData.elevatorPosition));
 
             }
 
-            // Open new floor and update calls for the other components
-            this.props.animationData.elevatorPosition = newFloor;
-            console.log("new floor 2");
-            console.log(newFloor);
-            await Promise.all([this.updateUp(),this.openElevatorDoor(newFloor)]);
+            // Check if there are pending calls between the current and the target floor
+            if (this.props.animationData.pendingCalls.length > 0
+                && this.props.animationData.pendingCalls.some(x => x >= newFloor && x <= this.props.animationData.elevatorPosition)) {
 
+                newFloor = Math.max(...this.props.animationData.pendingCalls.filter(x => x >= newFloor && x <= this.props.animationData.elevatorPosition))
+            }
+
+        }
+
+        // If valid newFloor, move otherwise change direction and resolve other calls
+        if ([0,1,2,3,4,5].includes(newFloor)) {
+            // Remove element from every list it is in
+            this.removeCall(newFloor);
+            this.decideMove(direction, newFloor);
+        } else {
+            this.props.updateDirection();
         }
     }
 
-    async moveDown() {
-        // todo complete
-        if (this.props.animationData.callsToCollectDown.length > 0 || this.props.animationData.pendingCalls.length > 0) {
-            // Close current floor
-            await this.closeElevatorDoor(this.props.animationData.elevatorPosition);
+    decideMove(direction, floor) {
 
-            // Go to the floor calling the elevator if no pending calls between current and target location
-            // First go to maximum floor to collect
-            let newFloor = Math.min(...this.props.animationData.callsToCollectDown);
-            this.props.animationData.callsToCollectDown.splice(this.props.animationData.callsToCollectDown.indexOf(newFloor), 1); // Remove element from callsToCollect
+        // Stop move if new floor is the same as the current floor
+        if (floor === this.props.animationData.elevatorPosition) {
 
-            // Stop to resolve pending calls todo or callsUp to collect (if both up and down button are pushed then collect both)
-            while (this.props.animationData.pendingCalls.some(x => x > newFloor && x < this.props.animationData.elevatorPosition)) {
-                console.log("pending");
-                console.log(this.props.animationData.pendingCalls);
-                // Get pending floors from max to min (down direction)
-                let pendingFloor = Math.max(...this.props.animationData.pendingCalls.filter( x => x > newFloor && x < this.props.animationData.elevatorPosition))
-                this.props.animationData.pendingCalls.splice(this.props.animationData.pendingCalls.indexOf(pendingFloor), 1);
+            // Remove floor need also its button to be switched off
+            this.props.animationData.servedFloors[floor] = 1;
+            if (this.wasPendingCall) { this.props.animationData.intServedFloors[floor] = 1;}
 
-                this.props.animationData.elevatorPosition = pendingFloor;
-                await Promise.all([this.updateDown(), this.openElevatorDoor(pendingFloor)]);
-                //console.log(this.props.animationData.pendingCalls);
-                await this.closeElevatorDoor(pendingFloor);
-
-            }
-
-            // Open new floor and update calls for the other components
-            this.props.animationData.elevatorPosition = newFloor;
-            await Promise.all([this.updateDown(), this.openElevatorDoor(newFloor)]);
-
-            console.log("finish move up");
-
+            this.props.updateFromAnimation(floor, this.props.animationData.callsToCollectUp, this.props.animationData.callsToCollectDown,
+                                           this.props.animationData.pendingCalls, this.props.animationData.servedFloors,
+                                           this.props.animationData.callsFromCommandsUp, this.props.animationData.callsFromCommandsDown,
+                                           this.props.animationData.intServedFloors)
         }
+
+        else if (direction === "up") { this.moveUp(floor) }
+
+        else  if (direction === "down") { this.moveDown(floor) }
+
     }
+
+    async moveUp(floor) {
+        // Close current floor
+
+        await this.closeElevatorDoor(this.props.animationData.elevatorPosition);
+
+        // Set new floor to current position
+        this.props.animationData.elevatorPosition = floor;
+
+
+        // Remove floor need also its buttons to be switched off
+        this.props.animationData.servedFloors[floor] = 1;
+        if (this.wasPendingCall) { this.props.animationData.intServedFloors[floor] = 1;}
+
+        await Promise.all([this.openElevatorDoor(floor), this.update(1000)]);
+    }
+
+    async moveDown(floor) {
+
+        // Close current floor
+
+        await this.closeElevatorDoor(this.props.animationData.elevatorPosition);
+
+        // Set new floor to current position
+        this.props.animationData.elevatorPosition = floor;
+
+        // Remove floor need also its button to be switched off
+        this.props.animationData.servedFloors[floor] = 1;
+        if (this.wasPendingCall) { this.props.animationData.intServedFloors[floor] = 1;}
+
+
+        await Promise.all([this.openElevatorDoor(floor), this.update(1000)]);
+}
 
     render() {
         return (
             <header style={divStyle}>
-                <img id="0" ref="fl0" src={openLift} className="Elevator-img" />
+                <img id="0" ref="fl0" src={closedLift} className="Elevator-img" />
                 <img id="1" ref="fl1" src={closedLift} className="Elevator-img" />
                 <img id="2" ref="fl2" src={closedLift} className="Elevator-img" />
                 <img id="3" ref="fl3" src={closedLift} className="Elevator-img" />
@@ -149,9 +217,28 @@ class ElevatorAnimation extends Component {
         );
     }
 
-    componentWillUpdate() {
-        if (this.props.animationData.elevatorDirection == "up") { this.moveUp(); }
-        else { this.moveDown(); }
+    componentDidMount() {
+        this.refs['fl' + this.props.animationData.elevatorPosition].src = openLift
+    }
+
+    componentDidUpdate() {
+
+        // Safety check to avoid infinite loops
+        if (this.props.animationData.pendingCalls.length > 0
+            || this.props.animationData.callsToCollectUp.length > 0
+            || this.props.animationData.callsToCollectDown.length > 0) {
+
+            console.log("dir " + this.props.animationData.elevatorDirection);
+            this.selectFloor(this.props.animationData.elevatorDirection);
+        }
+
+        if(this.props.fetchNewInputs) {
+
+            this.props.updateFromAnimation(this.props.animationData.elevatorPosition, this.props.animationData.callsToCollectUp,
+                this.props.animationData.callsToCollectDown, this.props.animationData.pendingCalls, this.props.animationData.servedFloors,
+                this.props.animationData.callsFromCommandsUp, this.props.animationData.callsFromCommandsDown, this.props.animationData.intServedFloors)
+
+        }
     }
 
 }
