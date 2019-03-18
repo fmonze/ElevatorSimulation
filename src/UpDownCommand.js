@@ -4,14 +4,13 @@ import downButton from './downButton.svg';
 import currentFloor from './current_floor_button.svg';
 
 const divStyle = {
-    padding: '10px',
+    padding: '2px',
     margin: '5px',
     border: '5px solid green'
 };
 
 const myRow = {
     position: 'relative',
-    margin: '5px',
     border: '5px solid yellow'
 };
 

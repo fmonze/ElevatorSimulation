@@ -3,10 +3,16 @@ import UpDownCommand from './UpDownCommand'; // name of imported component must 
 
 const myRow = {
     margin: '5px',
-    border: '5px solid blue',
+    border: '5px solid red',
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+};
+
+const divStyle = {
+    margin: '5px',
+    border: '5px solid blue',
+    width: '100%'
 };
 
 class ElevatorCommands extends Component {
@@ -22,8 +28,7 @@ class ElevatorCommands extends Component {
         render() {
         // todo se definisco come class App-header prende quelle caratteristiche
         return (
-            <header>
-                <div className="container-fluid">
+            <header style={divStyle}>
                     <div className="row" style={myRow}>
                         <UpDownCommand id={0} upDownData={this.props.commandsData}
                                        updateSwitchButton={(servedFloors) => { this.props.updateSwitchFromCommands(servedFloors)}}
@@ -158,7 +163,6 @@ class ElevatorCommands extends Component {
                                            }
                                        }}/>
                     </div>
-                </div>
             </header>
         );
     }

@@ -4,7 +4,8 @@ import closedLift from './closed_cage.svg';
 
 const divStyle = {
     margin: '5px',
-    border: '5px solid blue'
+    border: '5px solid blue',
+    width: '100%'
 };
 
 class ElevatorAnimation extends Component {
