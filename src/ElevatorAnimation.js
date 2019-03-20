@@ -3,8 +3,6 @@ import openLift from './open_cage.svg';
 import closedLift from './closed_cage.svg';
 
 const divStyle = {
-    margin: '5px',
-    border: '5px solid blue',
     width: '100%'
 };
 

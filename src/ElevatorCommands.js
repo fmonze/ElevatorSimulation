@@ -5,11 +5,11 @@ const myRow = {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    width: "100%",
+    margin: "0px"
 };
 
 const divStyle = {
-    margin: '5px',
-    border: '5px solid blue',
     width: '100%'
 };
 

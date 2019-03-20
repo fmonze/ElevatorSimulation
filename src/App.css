@@ -70,10 +70,8 @@
   padding-left: 4.5%;
   padding-right: 4.5%;
   position: relative;
-  margin-left: -33.2%;
+  margin-left: -34%;
   opacity: 0;
-  max-width: 80%;
-  max-height: 80%;
 }
 
 .Down-Button {
@@ -116,15 +114,9 @@
 }
 
 .Panel-Button {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  max-width: 80%;
-  max-height: 80%;
-  padding: 5% 10%;
-  padding-left: 4%;
-  padding-right: 4%;
+  margin: 10%;
+  margin-left: 10%;
+  margin-right: 5%;
 }
 
 .Extern-Component {
