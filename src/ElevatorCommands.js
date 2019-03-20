@@ -2,8 +2,6 @@ import React, {Component} from 'react';
 import UpDownCommand from './UpDownCommand'; // name of imported component must match the component class name !
 
 const myRow = {
-    margin: '5px',
-    border: '5px solid red',
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
