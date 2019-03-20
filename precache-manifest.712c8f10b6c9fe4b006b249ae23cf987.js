@@ -4,8 +4,8 @@ self.__precacheManifest = [
     "url": "/ElevatorSimulation/static/media/b2.f24fdf25.svg"
   },
   {
-    "revision": "e837277f3fc938767bd2",
-    "url": "/ElevatorSimulation/static/css/main.9df15ac3.chunk.css"
+    "revision": "e1a9eb0b4672768bef2c",
+    "url": "/ElevatorSimulation/static/css/main.aae91dcc.chunk.css"
   },
   {
     "revision": "2795951657a3dd5cc2ef",
@@ -36,8 +36,8 @@ self.__precacheManifest = [
     "url": "/ElevatorSimulation/static/media/b1.9477a1aa.svg"
   },
   {
-    "revision": "e837277f3fc938767bd2",
-    "url": "/ElevatorSimulation/static/js/main.e837277f.chunk.js"
+    "revision": "e1a9eb0b4672768bef2c",
+    "url": "/ElevatorSimulation/static/js/main.e1a9eb0b.chunk.js"
   },
   {
     "revision": "41db1cc0d20236e0ef339a9ca0cd3323",
@@ -68,7 +68,7 @@ self.__precacheManifest = [
     "url": "/ElevatorSimulation/static/css/2.1f1d75de.chunk.css"
   },
   {
-    "revision": "74abc9c311f0df11b97616659c9d71f7",
+    "revision": "d96b11b2b4780be785791af6e16d8a0d",
     "url": "/ElevatorSimulation/index.html"
   }
 ];

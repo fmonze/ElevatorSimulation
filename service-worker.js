@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/ElevatorSimulation/precache-manifest.1c06738b8cc6a57a4d532f32c6fcb9e5.js"
+  "/ElevatorSimulation/precache-manifest.712c8f10b6c9fe4b006b249ae23cf987.js"
 );
 
 workbox.clientsClaim();
